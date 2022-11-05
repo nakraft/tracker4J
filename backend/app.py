@@ -178,22 +178,12 @@ def modify_application():
             # filter = {"_id": jobId, "email": email}
 
             application = {
-                "email": session["email"],
+                "email": req["email"],
                 "companyName": req["companyName"],
                 "jobTitle": req["jobTitle"],
                 "jobId": req["jobId"],
                 "description": req["description"],
                 "url": req["url"],
-                # "Details": {
-                #     "Industry": "Software Development",
-                #     "Employment Type": "Full-time",
-                #     "Seniority": "Entry Level",
-                #     "Posted Date": datetime.datetime(2022, 7, 23),
-                #     "Location": {
-                #         "City": "Seattle",
-                #         "State": "WA"
-                #     },
-                # },
                 "date": req["date"],
                 "status": req["status"]
             }
