@@ -78,6 +78,8 @@ export default function EditApplication({ application, onClose, updateApplicatio
 					url: application.url,
 					status: application.status,
 					date: moment(application.date),
+					uploadResume: application.uploadResume
+
 				}}
 				onFinish={updateApplication}
 			>
@@ -165,6 +167,18 @@ export default function EditApplication({ application, onClose, updateApplicatio
 							</Select.Option>
 						))}
 					</Select>
+				</Form.Item>
+
+				<Form.Item
+					label="Upload Resume"
+					name="uploadResume"
+					rules={[
+						{
+							required: true,
+							message: 'Please upload your resume',
+						},
+					]}
+				>
 				</Form.Item>
 			</Form>
 		</Modal>

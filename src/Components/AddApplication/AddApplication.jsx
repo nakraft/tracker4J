@@ -134,6 +134,20 @@ export default function AddApplication({ isOpen, onClose, updateApplications }) 
 						))}
 					</Select>
 				</Form.Item>
+				
+				<Form.Item
+					label="Upload Resume"
+					name="uploadResume"
+					rules={[
+						{
+							required: true,
+							message: 'Please upload your resume',
+						},
+					]}
+				>
+					<input type = "file" name = "file" />
+				</Form.Item>
+				
 			</Form>
 		</Modal>
 	);
