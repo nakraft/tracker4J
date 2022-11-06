@@ -130,7 +130,8 @@ def add_application():
                 #     },
                 # },
                 "date": req["date"],
-                "status": req["status"]
+                "status": req["status"],
+                "uploadResume": req["uploadResume"]
             }
             try:
                 Applications.insert_one(application)
@@ -185,7 +186,8 @@ def modify_application():
                 "description": req["description"],
                 "url": req["url"],
                 "date": req["date"],
-                "status": req["status"]
+                "status": req["status"],
+                "uploadResume": req["uploadResume"]
             }
             set_values = {"$set": application}
             modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
