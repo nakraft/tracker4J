@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Typography } from 'antd';
+import { Button, Card, Typography, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 import AddSavedJob from './AddSavedJob';
 import './SavedJobs.scss';
+
+const sortingOptions = [
+	{
+	value: 'companyName_Asc',
+	label: 'Company Name Asc',
+	},
+	{
+	value: 'companyName_Desc',
+	label: 'Company Name Desc',
+	}
+]
 
 export default function SavedJobs() {
 	const [applications, setApplications] = useState([]);
@@ -19,9 +30,9 @@ export default function SavedJobs() {
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
-	const updateApplications = () => {
+	const updateApplications = (sort="name", asc=true) => {
 		axios
-			.get('/api/view_applications?email=' + state.email)
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
 			.then(({ data }) =>
 				setApplications(data.applications.filter((app) => app.status == 'saved'))
 			)
@@ -29,10 +40,22 @@ export default function SavedJobs() {
 			.finally(() => setLoading(false));
 	};
 
+	const handleChange = (value) => {
+		var sort = value.split("_")
+		updateApplications(sort[0], sort[1] == "Asc")
+	};
+
 	return (
 		<div className="SavedJobs">
 			<div className="SubHeader">
 				<div className="flex" />
+				<Select
+					defaultValue="Company Name Asc"
+					style={{ width: 220 }}
+					onChange={handleChange}
+					options={sortingOptions}
+					className="sortingDropdown"
+					/>
 				<Button
 					id="add-application"
 					type="primary"
