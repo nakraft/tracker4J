@@ -69,6 +69,7 @@ export default function LandingPage() {
 					style={{ width: 220 }}
 					onChange={handleChange}
 					options={sortingOptions}
+					className="sortingDropdown"
 					/>
 				<Button
 					id="add-application"
