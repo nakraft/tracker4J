@@ -98,7 +98,6 @@ def view_applications():
                     del i['email']
                     i['_id']=str(i['_id'])
                     applications_list.append(i)
-                print(applications_list)
                 return jsonify({'message': 'Applications found', 'applications': applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications'}), 200
@@ -115,26 +114,25 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            try:
+                description = req["description"]
+            except:
+                description = ""
+            try:
+                date = req["date"]
+            except:
+                date = ""
             application = {
                 "email": req["email"],
                 "companyName": req["companyName"],
                 "jobTitle": req["jobTitle"],
                 "jobId": req["jobId"],
-                "description": req["description"],
+                "description": description,
                 "url": req["url"],
-                # "details": {
-                #     "Industry": "Software Development",
-                #     "Employment Type": "Full-time",
-                #     "Seniority": "Entry Level",
-                #     "Posted Date": datetime.datetime(2022, 7, 23),
-                #     "Location": {
-                #         "City": "Seattle",
-                #         "State": "WA"
-                #     },
-                # },
-                "date": req["date"],
+                "date": date,
                 "status": req["status"]
             }
+            print("dd", application)
             try:
                 Applications.insert_one(application)
                 return jsonify({"message": "Application added successfully"}),200
