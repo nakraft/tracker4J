@@ -88,7 +88,9 @@ def view_applications():
         if request:
             # email = session["email"]
             email = request.args.get("email")
-            out = Applications.find({"email": email})
+            sort = request.args.get("sort")
+            asc = 1 if request.args.get("asc") == "true" else -1
+            out = Applications.find({"email": email}).sort(sort, asc)
             if out:
                 applications_list = []
                 # payload["msg"]="Applications present"
@@ -96,6 +98,7 @@ def view_applications():
                     del i['email']
                     i['_id']=str(i['_id'])
                     applications_list.append(i)
+                print(applications_list)
                 return jsonify({'message': 'Applications found', 'applications': applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications'}), 200
