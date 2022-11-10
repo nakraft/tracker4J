@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography } from 'antd';
+import { Button, Card, Tag, Typography, Dropdown, Select } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -15,6 +15,25 @@ const columns = {
 	decision: 'Decision',
 };
 
+const sortingOptions = [
+	{
+	value: 'companyName_Asc',
+	label: 'Company Name Asc',
+	},
+	{
+	value: 'companyName_Desc',
+	label: 'Company Name Desc',
+	},
+	{
+	value: 'date_Asc',
+	label: 'Date Asc',
+	},
+	{
+	value: 'date_Desc',
+	label: 'Date Desc',
+	}
+]
+
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -23,7 +42,7 @@ export default function LandingPage() {
 	const { state } = useLocation();
 
 	useEffect(() => {
-		updateApplications("companyName", true);
+		updateApplications();
 	}, []);
 
 	const updateApplications = (sort="name", asc=true) => {
@@ -33,6 +52,7 @@ export default function LandingPage() {
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
+
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
