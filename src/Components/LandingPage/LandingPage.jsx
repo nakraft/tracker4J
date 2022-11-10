@@ -23,12 +23,12 @@ export default function LandingPage() {
 	const { state } = useLocation();
 
 	useEffect(() => {
-		updateApplications();
+		updateApplications("companyName", true);
 	}, []);
 
-	const updateApplications = () => {
+	const updateApplications = (sort="name", asc=true) => {
 		axios
-			.get('/api/view_applications?email=' + state.email)
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
 			.then(({ data }) => setApplications(data.applications))
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
