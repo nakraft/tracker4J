@@ -64,6 +64,12 @@ export default function LandingPage() {
 		<div className="LandingPage">
 			<div className="SubHeader">
 				<div className="flex" />
+				<Select
+					defaultValue="Company Name Asc"
+					style={{ width: 220 }}
+					onChange={handleChange}
+					options={sortingOptions}
+					/>
 				<Button
 					id="add-application"
 					type="primary"
