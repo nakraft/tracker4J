@@ -53,6 +53,10 @@ export default function LandingPage() {
 			.finally(() => setLoading(false));
 	};
 
+	const handleChange = (value) => {
+		var sort = value.split("_")
+		updateApplications(sort[0], sort[1] == "Asc")
+	};
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
