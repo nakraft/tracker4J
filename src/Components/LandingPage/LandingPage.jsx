@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography, Dropdown, Select } from 'antd';
+import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -36,6 +36,8 @@ const sortingOptions = [
 
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
+	const [filter, setFilter] = useState("");
+	const [sort, setSort] = useState("name_Asc");
 	const [loading, setLoading] = useState(true);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
@@ -43,27 +45,40 @@ export default function LandingPage() {
 
 	useEffect(() => {
 		updateApplications();
-	}, []);
+	}, [sort, filter]);
 
-	const updateApplications = (sort="name", asc=true) => {
+	const updateApplications = () => {
 		axios
-			.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter)
 			.then(({ data }) => setApplications(data.applications))
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
 
 	const handleChange = (value) => {
-		var sort = value.split("_")
-		updateApplications(sort[0], sort[1] == "Asc")
+		setSort(value)
+		updateApplications()
 	};
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
+	const onSearch = (string) => {
+		setFilter(string)
+	}
+
 	return (
 		<div className="LandingPage">
 			<div className="SubHeader">
+				<Input.Search
+					placeholder="search text"
+					allowClear
+					enterButton="Search"
+					size="large"
+      				style={{ width: 400 }}
+      				onSearch={onSearch}
+				/>
 				<div className="flex" />
+				
 				<Select
 					defaultValue="Company Name Asc"
 					style={{ width: 220 }}
