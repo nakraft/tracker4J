@@ -88,7 +88,9 @@ def view_applications():
         if request:
             # email = session["email"]
             email = request.args.get("email")
-            out = Applications.find({"email": email})
+            sort = request.args.get("sort")
+            asc = 1 if request.args.get("asc") == "true" else -1
+            out = Applications.find({"email": email}).sort(sort, asc)
             if out:
                 applications_list = []
                 # payload["msg"]="Applications present"
@@ -112,26 +114,25 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            try:
+                description = req["description"]
+            except:
+                description = ""
+            try:
+                date = req["date"]
+            except:
+                date = ""
             application = {
                 "email": req["email"],
                 "companyName": req["companyName"],
                 "jobTitle": req["jobTitle"],
                 "jobId": req["jobId"],
-                "description": req["description"],
+                "description": description,
                 "url": req["url"],
-                # "details": {
-                #     "Industry": "Software Development",
-                #     "Employment Type": "Full-time",
-                #     "Seniority": "Entry Level",
-                #     "Posted Date": datetime.datetime(2022, 7, 23),
-                #     "Location": {
-                #         "City": "Seattle",
-                #         "State": "WA"
-                #     },
-                # },
-                "date": req["date"],
+                "date": date,
                 "status": req["status"]
             }
+            print("dd", application)
             try:
                 Applications.insert_one(application)
                 return jsonify({"message": "Application added successfully"}),200
@@ -178,22 +179,12 @@ def modify_application():
             # filter = {"_id": jobId, "email": email}
 
             application = {
-                "email": session["email"],
+                "email": req["email"],
                 "companyName": req["companyName"],
                 "jobTitle": req["jobTitle"],
                 "jobId": req["jobId"],
                 "description": req["description"],
                 "url": req["url"],
-                # "Details": {
-                #     "Industry": "Software Development",
-                #     "Employment Type": "Full-time",
-                #     "Seniority": "Entry Level",
-                #     "Posted Date": datetime.datetime(2022, 7, 23),
-                #     "Location": {
-                #         "City": "Seattle",
-                #         "State": "WA"
-                #     },
-                # },
                 "date": req["date"],
                 "status": req["status"]
             }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography } from 'antd';
+import { Button, Card, Tag, Typography, Dropdown, Select } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -15,6 +15,25 @@ const columns = {
 	decision: 'Decision',
 };
 
+const sortingOptions = [
+	{
+	value: 'companyName_Asc',
+	label: 'Company Name Asc',
+	},
+	{
+	value: 'companyName_Desc',
+	label: 'Company Name Desc',
+	},
+	{
+	value: 'date_Asc',
+	label: 'Date Asc',
+	},
+	{
+	value: 'date_Desc',
+	label: 'Date Desc',
+	}
+]
+
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -26,12 +45,17 @@ export default function LandingPage() {
 		updateApplications();
 	}, []);
 
-	const updateApplications = () => {
+	const updateApplications = (sort="name", asc=true) => {
 		axios
-			.get('/api/view_applications?email=' + state.email)
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
 			.then(({ data }) => setApplications(data.applications))
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
+	};
+
+	const handleChange = (value) => {
+		var sort = value.split("_")
+		updateApplications(sort[0], sort[1] == "Asc")
 	};
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
@@ -40,6 +64,13 @@ export default function LandingPage() {
 		<div className="LandingPage">
 			<div className="SubHeader">
 				<div className="flex" />
+				<Select
+					defaultValue="Company Name Asc"
+					style={{ width: 220 }}
+					onChange={handleChange}
+					options={sortingOptions}
+					className="sortingDropdown"
+					/>
 				<Button
 					id="add-application"
 					type="primary"
