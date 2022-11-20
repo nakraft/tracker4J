@@ -80,6 +80,12 @@ export default function SavedJobs() {
 					onClose={toggleAddApplication}
 					updateApplications={updateApplications}
 				/>
+				<AddSavedJob
+					isOpen={addApplicationOpen}
+					onClose={toggleAddApplication}
+					updateApplications={updateApplications}
+				/>
+
 			</div>
 			<div className="Jobs">
 				{loading && (
