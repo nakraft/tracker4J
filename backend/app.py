@@ -312,6 +312,14 @@ def add_career_fair():
                 "description": description,
                 "url": req["url"],
             }
+            try:
+                CareerFair.insert_one(career_fair)
+                return jsonify({"message": "Application added successfully"}),200
+            except Exception as e:
+                #print(str(e))
+                return jsonify({"error": "Unable to add Application"}),400
+        # else:
+        #     return jsonify({'error': "Not Logged in"}), 400
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
