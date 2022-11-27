@@ -301,7 +301,17 @@ def add_career_fair():
         # if "email" in session:
         if request:
             req = request.get_json()
+            try:
+                description = req["description"]
+            except:
+                description = ""
             print(req)
+            career_fair = {
+                "email": "abcd", 
+                "careerFairName": "abcd",
+                "description": description,
+                "url": req["url"],
+            }
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
