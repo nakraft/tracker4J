@@ -97,6 +97,8 @@ def view_applications():
             sort = request.args.get("sort")
             asc = 1 if request.args.get("asc") == "true" else -1
             filterString = request.args.get("filter")
+            if(filterString is None) :
+                filterString = ""
             out = Applications.find({"email": email}).sort(sort, asc)
             if out:
                 applications_list = []
