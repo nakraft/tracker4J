@@ -151,9 +151,8 @@ export default function LandingPage() {
 											<br />
 											Title: {application.jobTitle}
 											<br />
-											{'URL: '}
 											<a href={'//' + application.url} target={'_blank'}>
-												{application.url}
+												{'URL to Job Posting'}
 											</a>
 											<br />
 											Notes: {application.description}
