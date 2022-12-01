@@ -80,6 +80,12 @@ def logout():
     #     session.pop("email", None)
     return jsonify({'message': 'Logout successful'}), 200
 
+def filterResults(applications, filter):
+    filteredApplications = []
+    for application in applications:
+        if( (application['companyName'].lower().find(filter.lower()) != -1) or (application['jobTitle'].lower().find(filter.lower()) != -1) or (application['jobId'].lower().find(filter.lower()) != -1) or (application['description'].lower().find(filter.lower()) != -1) or (application['url'].lower().find(filter.lower()) != -1) ):
+            filteredApplications.append(application)
+    return filteredApplications
 
 @app.route("/view_applications", methods=["GET"])
 def view_applications():
@@ -90,6 +96,7 @@ def view_applications():
             email = request.args.get("email")
             sort = request.args.get("sort")
             asc = 1 if request.args.get("asc") == "true" else -1
+            filterString = request.args.get("filter")
             out = Applications.find({"email": email}).sort(sort, asc)
             if out:
                 applications_list = []
@@ -98,7 +105,8 @@ def view_applications():
                     del i['email']
                     i['_id']=str(i['_id'])
                     applications_list.append(i)
-                return jsonify({'message': 'Applications found', 'applications': applications_list}), 200
+                filtered_applications_list = filterResults(applications_list, filterString)
+                return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications'}), 200
         # else:
