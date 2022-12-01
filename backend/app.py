@@ -10,9 +10,12 @@ app = Flask(__name__)
 app.secret_key = "testing"
 
 client = MongoClient("mongodb+srv://se_test_user:se_test_user123@cluster0.npdziph.mongodb.net/?retryWrites=true&w=majority")
+#client2 = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
+#db2 = client2.get_database("Test")
 db = client.get_database("Test")
 UserRecords = db.register
 Applications = db.Applications
+CareerFair = db.CareerFair
 UserProfiles = db.Profiles
 
 
