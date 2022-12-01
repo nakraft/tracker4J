@@ -51,6 +51,36 @@ export default function AddCareerFair({ isOpen, onClose, updateApplications }) {
 				>
 					<Input placeholder="Enter Career Fair Name" />
 				</Form.Item>
+				<Form.Item
+					label="Date"
+					name="date"
+					rules={[
+						{
+							required: true,
+							message: 'Please enter Applied Date!',
+						},
+					]}
+				>
+					<DatePicker />
+				</Form.Item>
+
+
+				<Form.Item
+					label="URL / Career Fair Link"
+					name="url"
+					rules={[
+						{
+							required: true,
+							message: 'Please enter URL / Career Fair Link!',
+						},
+						{
+							type: 'url',
+							warningOnly: true,
+						},
+					]}
+				>
+					<Input placeholder="Enter URL / Career Fair Link" />
+				</Form.Item>
 			</Form>
 		</Modal>
 	);
