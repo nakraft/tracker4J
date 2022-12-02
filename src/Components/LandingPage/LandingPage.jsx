@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Popup from 'reactjs-popup';
 import { Button, Card, Tag, Typography } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -7,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
 import './LandingPage.scss';
+
 
 const columns = {
 	applied: 'Applied',
@@ -36,10 +38,20 @@ export default function LandingPage() {
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
+
 	return (
+
+
 		<div className="LandingPage">
 			<div className="SubHeader">
 				<div className="flex" />
+
+				<Popup trigger={<Button id="modal" > Calendar </Button>} 
+				position="left center" size="100px">
+				<div>GeeksforGeeks</div>
+				<button>Click here</button>
+				</Popup>
+				&nbsp; &nbsp;
 				<Button
 					id="add-application"
 					type="primary"
@@ -127,6 +139,12 @@ export default function LandingPage() {
 					email={state.email}
 				/>
 			)}
-		</div>
-	);
+
+			</div>
+
+		);
+	
 }
+<script type="text/javascript">
+document.getElementById("modal").click();
+</script>

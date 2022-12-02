@@ -4,6 +4,7 @@ from flask import Flask, request, session, jsonify
 from pymongo import MongoClient, ReturnDocument
 import bcrypt
 from urllib.parse import urlparse, parse_qs
+from datetime import date, datetime, timedelta
 
 
 app = Flask(__name__)
@@ -14,6 +15,21 @@ db = client.get_database("Test")
 UserRecords = db.register
 Applications = db.Applications
 UserProfiles = db.Profiles
+
+today = str(datetime.today()).split()[0]
+query = {"date": {"$gte": today}}
+projection = {"date":1, "_id":0}
+cursor = Applications.find(query,projection)
+for item in cursor:
+    print(item)
+
+# from_date = datetime(2022, 11, 5)
+# #myDate = new Date("2016-05-18T16:00:00Z")
+# item_details = Applications.find({'date': {"$gte": "2022-12-01"}})
+# #item_details = Applications.find({}, {"date":1, "_id":0})
+# #item_details = Applications.find({}, {"date":1, "_id": 0,  "dateVerify": {"$gte": ["date", "2022-12-01"]}})
+# for item in item_details:
+#     print(item)
 
 
 @app.route("/register", methods=["post"])
