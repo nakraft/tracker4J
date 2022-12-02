@@ -103,6 +103,7 @@ export default function SavedJobs() {
 				/>
 
 			</div>
+            <h1> Saved Jobs </h1>
 			<div className="Jobs">
 				{loading && (
 					<>
@@ -146,7 +147,7 @@ export default function SavedJobs() {
 						</a>
 					</Card>
 				))}
-				{careerfairs.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
+				{careerfairs.length === 0 && <Typography.Text>No Saved Career Fairs</Typography.Text>}
 			</div>
 
 		</div>
