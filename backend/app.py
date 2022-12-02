@@ -159,7 +159,6 @@ def add_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
 @app.route("/delete_application", methods=["POST"])
 def delete_application():
     try:
@@ -298,6 +297,7 @@ def next_stage_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+
 @app.route("/add_career_fair", methods=["POST"])
 def add_career_fair():
     try:
@@ -308,12 +308,17 @@ def add_career_fair():
                 description = req["description"]
             except:
                 description = ""
+            try:
+                date = req["date"]
+            except:
+                date = ""
             print(req)
             career_fair = {
-                "email": "abcd", 
-                "careerFairName": "abcd",
+                "email": req["email"],
+                "careerFairName": req["careerFairName"],
                 "description": description,
                 "url": req["url"],
+                "date": date,
             }
             try:
                 CareerFair.insert_one(career_fair)
