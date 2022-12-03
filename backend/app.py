@@ -176,6 +176,30 @@ def delete_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/change_status", methods=["POST"])
+def change_status():
+    try:
+        # if "email" in session:
+        if request:
+            req = request.get_json()
+            print(req)
+            email = req["email"]
+            _id = req["_id"]
+            filter = {'_id':ObjectId(_id), "email": email}
+
+            application = {
+                "status": req["status"]
+            }
+            set_values = {"$set": application}
+            modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
+            if modify_document == None:
+                return jsonify({"error": "No such Job ID found for this user's email"}), 400
+            else:
+                return jsonify({"message": "Job Application modified successfully"}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/modify_application", methods=["POST"])
 def modify_application():
@@ -183,6 +207,7 @@ def modify_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            print(req)
             email = req["email"]
             _id = req["_id"]
             filter = {'_id':ObjectId(_id), "email": email}
@@ -224,9 +249,6 @@ def next_stage_application():
 
             application = {
                 "email": req["email"],
-                "companyName": req["companyName"],
-                "jobTitle": req["jobTitle"],
-                "jobId": req["jobId"],
                 "description": req["description"],
                 "reminder": req["reminder"],
                 "interview": req["interview"],

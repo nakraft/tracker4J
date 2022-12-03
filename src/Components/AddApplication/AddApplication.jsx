@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 
 const statuses = {
 	applied: 'Applied',
-	inReview: 'In Review',
 	interview: 'Interview',
 	rejected: 'Rejected',
 	accepted: 'Accepted',
