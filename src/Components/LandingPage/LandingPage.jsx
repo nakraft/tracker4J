@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
-import { EditFilled, PlusOutlined } from '@ant-design/icons';
+import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
+import NextStageApplication from '../AddApplication/NextStageApplication';
 import './LandingPage.scss';
 
 const columns = {
@@ -41,6 +43,7 @@ export default function LandingPage() {
 	const [loading, setLoading] = useState(true);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
+	const [nextStageApplication, setNextStageApplication] = useState(false);
 	const { state } = useLocation();
 
 	useEffect(() => {
@@ -124,17 +127,24 @@ export default function LandingPage() {
 											key={col + index}
 											title={application.companyName}
 											extra={
-												<Button
+												<><Button
 													type="text"
 													icon={<EditFilled />}
 													onClick={() => setEditApplication(application)}
-													id={application.jobId + 'edit'}
-												/>
+													id={application.jobId + 'edit'} />
+													
+													{/* <Button
+														type="text"
+														icon={<ArrowRightOutlined />}
+														onClick={() => setNextStageApplication(application)}
+														id={application.jobId + 'next'} /> */}
+														
+													</>
 											}
 											className="Job"
 											bordered={false}
 											actions={
-												['rejected', 'accepted'].includes(
+												['rejected', 'accepted', 'applied'].includes(
 													application.status
 												) && [
 													application.status === 'accepted' ? (
@@ -144,6 +154,18 @@ export default function LandingPage() {
 															<Tag color="#f50">Rejected</Tag>
 														)
 													),
+													application.status === 'applied' ? (
+														<Tag color="#FFA500" onClick={() => setNextStageApplication(application)}>Heard Back?</Tag>
+														// <Button
+														// 	id="been_contacted"
+														// 	color="#FFA500"
+														// 	icon={<PlusOutlined />}
+														// 	onClick={() => setNextStageApplication(application)}
+														// 	id={application.jobId + 'next'}
+														// >
+														// 	Heard Back?
+														// </Button>
+													) : null,
 												]
 											}
 										>
@@ -156,6 +178,8 @@ export default function LandingPage() {
 											</a>
 											<br />
 											Notes: {application.description}
+											Upcoming Interview: {application.interview}
+											Action Needed By: {application.reminder}
 										</Card>
 									)
 							)
@@ -169,6 +193,13 @@ export default function LandingPage() {
 					application={editApplication}
 					onClose={() => setEditApplication(false)}
 					updateApplications={updateApplications}
+					email={state.email}
+				/>
+			)}
+			{nextStageApplication && (
+				<NextStageApplication
+					application={nextStageApplication}
+					onClose={() => setNextStageApplication(false)}
 					email={state.email}
 				/>
 			)}
