@@ -6,13 +6,12 @@ import axios from 'axios';
 
 const statuses = {
 	applied: 'Applied',
-	inReview: 'In Review',
 	interview: 'Interview',
 	rejected: 'Rejected',
 	accepted: 'Accepted',
 };
 
-export default function Contact({ application, onClose, email }) {
+export default function Contact({ application, onClose, updateApplications, email }) {
 	const [form] = Form.useForm();
 
 	const closeForm = () => {
@@ -23,7 +22,7 @@ export default function Contact({ application, onClose, email }) {
 	const updateApplication = (values) => {
 		const loading = message.loading('Saving...', 0);
 		axios
-			.post('/api/next_stage_application', {
+			.post('/api/add_contact_details', {
 				...values,
 				_id: application._id,
 				email,
@@ -40,70 +39,50 @@ export default function Contact({ application, onClose, email }) {
 	};
 
 	return (
-        <div className="ContactCompany">
-			<div className="SubHeader">
-                Track Company Communications
-            </div>
+        <Modal
+            title="Track Company Communications"
+            open={true}
+            onCancel={closeForm}
+            width={700}
+            centered
+            footer={[
+                <Button type="primary" onClick={() => form.submit()} id="save" key="save">
+                    Log New Communication Information
+                </Button>,
+            ]}
+        >
             <div>
-            <Card
-                    key={col + index}
-                    title={application.companyName}
-                    className="Job"
-                    bordered={false}
-                >
-                    ID: {application.jobId}
-                    <br />
-                    Title: {application.jobTitle}
-                    <br />
-                </Card>
+				Company Name : {application.companyName}
+				<br />
+				Job Title : {application.jobTitle}
+				<hr />
             </div>
-            <div>
-                <Modal
-                    title="Log Making Contact with Company"
-                    open={true}
-                    onCancel={closeForm}
-                    width={700}
-                    centered
-                    footer={[
-                        <Button type="primary" onClick={() => form.submit()} id="save" key="save">
-                            Log New Communication Information
-                        </Button>,
+            
+            <Form
+                form={form}
+                layout="vertical"
+                requiredMark={false}
+                initialValues={{
+                    contactName: application.contact,
+                }}
+                onFinish={updateApplication}
+            >
+                <Form.Item label="Contact Information" name="contactName">
+                    <Input.TextArea placeholder="Enter Contact Information (name, email, purpose)" />
+                </Form.Item>
+                <Form.Item
+                    label="Set Reminder To Follow Up With Someone"
+                    name="reminder"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Enter Date that You Need to Take Your Next Action Before!',
+                        },
                     ]}
                 >
-                    <Form
-                        form={form}
-                        layout="vertical"
-                        requiredMark={false}
-                        initialValues={{
-                            companyName: application.companyName,
-                            jobId: application.jobId,
-                            jobTitle: application.jobTitle,
-                            description: application.description,
-                            url: application.url,
-                            status: application.status,
-                            // interview: moment(application.interview),
-                            // reminder: moment(application.reminder)
-                        }}
-                        onFinish={updateApplication}
-                    >
-                        <Form.Item label="ContactInformation" name="contact">
-                            <Input.TextArea placeholder="Enter Contact Information (name, email, purpose)" />
-                        </Form.Item>
-                        <Form.Item
-                            label="Set Reminder"
-                            name="reminder"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Enter Date that You Need to Take Your Next Action Before!',
-                                },
-                            ]}
-                        >
-                            <DatePicker />
-                        </Form.Item>
-                    </Form>
-                </Modal>
-            </div>
-	    </div>
+                    <DatePicker />
+                </Form.Item>
+            </Form>
+        </Modal>
     );
 }

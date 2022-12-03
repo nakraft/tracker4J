@@ -212,6 +212,7 @@ export default function LandingPage() {
 				<Contact
 					application={contacted}
 					onClose={() => setContacts(false)}
+					updateApplications = {updateApplications}
 					email={state.email}
 				/>
 			)}

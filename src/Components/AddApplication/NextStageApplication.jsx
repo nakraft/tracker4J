@@ -10,7 +10,7 @@ const statuses = {
 	accepted: 'Accepted',
 };
 
-export default function NextStageApplication({ application, onClose, email }) {
+export default function NextStageApplication({ application, onClose, updateApplications, email }) {
 	const [form] = Form.useForm();
 
 	const closeForm = () => {
@@ -62,7 +62,7 @@ export default function NextStageApplication({ application, onClose, email }) {
 				requiredMark={false}
 				initialValues={{
 					description: application.description,
-					status: "interview"
+					status: 'interview'
 					// interview: moment(application.interview),
                     // reminder: moment(application.reminder)
 				}}
