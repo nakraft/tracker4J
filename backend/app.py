@@ -18,9 +18,9 @@ UserProfiles = db.Profiles
 
 today = str(datetime.today()).split()[0]
 query = {"date": {"$gte": today}}
-projection = {"date":1, "_id":0}
-cursor = Applications.find(query,projection)
-for item in cursor:
+projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+item_details = Applications.find(query,projection)
+for item in item_details:
     print(item)
 
 # from_date = datetime(2022, 11, 5)
