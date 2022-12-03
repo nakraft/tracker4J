@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { format } from 'date-fns'
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
 import NextStageApplication from '../AddApplication/NextStageApplication';
+import Contact from '../AddApplication/Contact';
+import ChooseAction from '../AddApplication/ChooseAction';
+import ChangeOutcome from '../AddApplication/ChangeOutcome';
 import './LandingPage.scss';
 
 const columns = {
 	applied: 'Applied',
-	inReview: 'In Review',
 	interview: 'Interview',
 	decision: 'Decision',
 };
@@ -44,6 +47,9 @@ export default function LandingPage() {
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
 	const [nextStageApplication, setNextStageApplication] = useState(false);
+	const [contacted, setContacts] = useState(false);
+	const [chooseAction, setNextAction] = useState(false);
+	const [changeOutcome, setOutcome] = useState(false);
 	const { state } = useLocation();
 
 	useEffect(() => {
@@ -67,7 +73,7 @@ export default function LandingPage() {
 
 	const onSearch = (string) => {
 		setFilter(string)
-	}
+	};
 
 	return (
 		<div className="LandingPage">
@@ -144,28 +150,24 @@ export default function LandingPage() {
 											className="Job"
 											bordered={false}
 											actions={
-												['rejected', 'accepted', 'applied'].includes(
-													application.status
-												) && [
-													application.status === 'accepted' ? (
-														<Tag color="#87d068">Accepted</Tag>
-													) : (
-														application.status === 'rejected' && (
-															<Tag color="#f50">Rejected</Tag>
-														)
-													),
-													application.status === 'applied' ? (
-														<Tag color="#FFA500" onClick={() => setNextStageApplication(application)}>Heard Back?</Tag>
-														// <Button
-														// 	id="been_contacted"
-														// 	color="#FFA500"
-														// 	icon={<PlusOutlined />}
-														// 	onClick={() => setNextStageApplication(application)}
-														// 	id={application.jobId + 'next'}
-														// >
-														// 	Heard Back?
-														// </Button>
-													) : null,
+												[
+												application.status === 'accepted' ? (
+													<Tag color="#87d068">Accepted</Tag>
+												) : (
+													application.status === 'rejected' && (
+														<Tag color="#f50">Rejected</Tag>
+													)
+												),
+												application.status === 'applied' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#FFA500" onClick={() => setNextStageApplication(application)}>Got the Interview?</Tag>
+													</div>
+												) : null,
+												application.status === 'interview' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#A020F0" onClick={() => setOutcome(application)}>Change Outcome</Tag>
+													</div>
+												) : null,
 												]
 											}
 										>
@@ -178,7 +180,9 @@ export default function LandingPage() {
 											</a>
 											<br />
 											Notes: {application.description}
+											<br />
 											Upcoming Interview: {application.interview}
+											<br />
 											Action Needed By: {application.reminder}
 										</Card>
 									)
@@ -200,6 +204,29 @@ export default function LandingPage() {
 				<NextStageApplication
 					application={nextStageApplication}
 					onClose={() => setNextStageApplication(false)}
+					updateApplications={updateApplications}
+					email={state.email}
+				/>
+			)}
+			{contacted && (
+				<Contact
+					application={contacted}
+					onClose={() => setContacts(false)}
+					email={state.email}
+				/>
+			)}
+			{chooseAction && (
+				<ChooseAction
+					application={chooseAction}
+					onClose={() => setNextAction(false)}
+					email={state.email}
+				/>
+			)}
+			{changeOutcome && (
+				<ChangeOutcome
+					application={changeOutcome}
+					onClose={() => setOutcome(false)}
+					updateApplications={updateApplications}
 					email={state.email}
 				/>
 			)}
