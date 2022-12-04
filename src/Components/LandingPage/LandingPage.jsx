@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
 import './LandingPage.scss'
+
 // import item_details from '../../../.,/backend/app.py';
 
 
@@ -50,25 +51,34 @@ export default function LandingPage() {
 
 
       <div className="LandingPage">
-      <h1>{testVariable.companyName}</h1>
-      <h1>{testVariable.date}</h1>
-      <h1>{testVariable.jobTitle}</h1>
          <div className="SubHeader">
             <div className="flex" />
             <Popup trigger={<Button id="modal" > Reminders </Button>}
-            position="left center" size="100px">
-            <div>Upcoming interviews</div>
-            <button>Click here</button>
+            position="down" size="100px">
+            <div><b>Upcoming interviews</b></div>
             {/* {
                console.log(item_details.entries())
             } */}
                {testVariable.map(({companyName, date, jobTitle}) => {
+				<table>
+					<tr>
+					<th>
+						Company Name
+					</th>
+					<th>
+						Job title
+					</th>
+					<th>
+						Interview Date
+					</th>
+					</tr>
+				</table>
                   return (
-                     <div>
-                     <p>{companyName}</p>
-					<p>{date}</p>
-					<p>{jobTitle}</p>
-                     </div>
+					<tr>
+                    <td width="100px">{companyName}</td>
+					<td width="150px">{jobTitle}</td>
+					<td width="200px">{date}</td>
+                    </tr>
                   );
                }
                )
