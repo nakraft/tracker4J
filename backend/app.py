@@ -10,12 +10,9 @@ app = Flask(__name__)
 app.secret_key = "testing"
 
 client = MongoClient("mongodb+srv://se_test_user:se_test_user123@cluster0.npdziph.mongodb.net/?retryWrites=true&w=majority")
-#client2 = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
-#db2 = client2.get_database("Test")
 db = client.get_database("Test")
 UserRecords = db.register
 Applications = db.Applications
-CareerFair = db.CareerFair
 UserProfiles = db.Profiles
 
 
@@ -73,7 +70,7 @@ def login():
         else:
             return jsonify({'error': "Email not found"}), 400
     except Exception as e:
-        #print(e)
+        print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
 
@@ -119,7 +116,7 @@ def view_applications():
         #     return jsonify({'error': "Not Logged in"}), 400
             
     except Exception as e:
-        #print(e)
+        print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/add_application", methods=["POST"])
@@ -158,6 +155,7 @@ def add_application():
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
+
 
 @app.route("/delete_application", methods=["POST"])
 def delete_application():
@@ -296,70 +294,6 @@ def next_stage_application():
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
-
-
-@app.route("/add_career_fair", methods=["POST"])
-def add_career_fair():
-    try:
-        # if "email" in session:
-        if request:
-            req = request.get_json()
-            try:
-                description = req["description"]
-            except:
-                description = ""
-            try:
-                date = req["date"]
-            except:
-                date = ""
-            print(req)
-            career_fair = {
-                "email": req["email"],
-                "careerFairName": req["careerFairName"],
-                "description": description,
-                "url": req["url"],
-                "date": date,
-            }
-            try:
-                CareerFair.insert_one(career_fair)
-                return jsonify({"message": "Application added successfully"}),200
-            except Exception as e:
-                #print(str(e))
-                return jsonify({"error": "Unable to add Application"}),400
-        # else:
-        #     return jsonify({'error': "Not Logged in"}), 400
-    except Exception as e:
-        print(e)
-        return jsonify({'error': "Something went wrong"}), 400
-
-@app.route("/view_careerfairs", methods=["GET"])
-def view_careerfairs():
-    try:
-        # if "email" in session:
-        if request:
-            # email = session["email"]
-            email = request.args.get("email")
-#            sort = request.args.get("sort")
-#            asc = 1 if request.args.get("asc") == "true" else -1
-            out = CareerFair.find({"email": email})#.sort(sort, asc)
-            if out:
-                careerfair_list = []
-                # payload["msg"]="Applications present"
-                for i in out:
-                    del i['email']
-                    i['_id']=str(i['_id'])
-                    i['date'] = i['date'].split('T')[0]
-                    careerfair_list.append(i)
-                return jsonify({'message': 'Applications found', 'applications': careerfair_list}), 200
-            else:
-                return jsonify({'message': 'You have no career fairs added'}), 200
-        # else:
-        #     return jsonify({'error': "Not Logged in"}), 400
-            
-    except Exception as e:
-        #print(e)
-        return jsonify({'error': "Something went wrong"}), 400
-
 
 @app.route("/create_profile", methods=["post"])
 def create_profile():
