@@ -65,6 +65,16 @@ export default function SavedJobs() {
 				>
 					Add Application
 				</Button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Button
+					id="add-career-fair"
+					type="primary"
+					size="large"
+					icon={<PlusOutlined />}
+					onClick={toggleAddCareerFair}
+				>
+					Add Career Fair
+				</Button>
 				<AddSavedJob
 					isOpen={addApplicationOpen}
 					onClose={toggleAddApplication}
