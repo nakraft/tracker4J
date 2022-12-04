@@ -18,6 +18,8 @@ export default function AddCareerFair({ isOpen, onClose, updateApplications }) {
 			.post('/api/add_career_fair', { ...values, status: 'saved', email: state.email })
 			.then(({ data }) => {
 				message.success(data.message);
+				updateApplications();
+				closeForm();
 			})
 			.catch((err) => message.error(err.response.data?.error));
 	};
