@@ -115,7 +115,7 @@ const uploadFile = async (fileObject) => {
             mimeType: fileObject.mimeType,
             
     
-            body: fs.createReadStream("C:/users/kanishk harde/downloads/"+fileObject.originalname),
+            body: fs.createReadStream("C:/users/downloads/"+fileObject.originalname),
           },
         });
         console.log(fileObject);
