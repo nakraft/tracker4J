@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
-import { EditFilled, PlusOutlined } from '@ant-design/icons';
+import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { format } from 'date-fns'
+import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
+import NextStageApplication from '../AddApplication/NextStageApplication';
+import Contact from '../AddApplication/Contact';
+import ChooseAction from '../AddApplication/ChooseAction';
+import ChangeOutcome from '../AddApplication/ChangeOutcome';
 import './LandingPage.scss';
 
 const columns = {
 	applied: 'Applied',
-	inReview: 'In Review',
 	interview: 'Interview',
 	decision: 'Decision',
 };
@@ -41,6 +46,10 @@ export default function LandingPage() {
 	const [loading, setLoading] = useState(true);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
+	const [nextStageApplication, setNextStageApplication] = useState(false);
+	const [contacted, setContacts] = useState(false);
+	const [chooseAction, setNextAction] = useState(false);
+	const [changeOutcome, setOutcome] = useState(false);
 	const { state } = useLocation();
 
 	useEffect(() => {
@@ -64,7 +73,7 @@ export default function LandingPage() {
 
 	const onSearch = (string) => {
 		setFilter(string)
-	}
+	};
 
 	return (
 		<div className="LandingPage">
@@ -124,26 +133,41 @@ export default function LandingPage() {
 											key={col + index}
 											title={application.companyName}
 											extra={
-												<Button
+												<><Button
 													type="text"
 													icon={<EditFilled />}
 													onClick={() => setEditApplication(application)}
-													id={application.jobId + 'edit'}
-												/>
+													id={application.jobId + 'edit'} />
+													
+													{/* <Button
+														type="text"
+														icon={<ArrowRightOutlined />}
+														onClick={() => setNextStageApplication(application)}
+														id={application.jobId + 'next'} /> */}
+														
+													</>
 											}
 											className="Job"
 											bordered={false}
 											actions={
-												['rejected', 'accepted'].includes(
-													application.status
-												) && [
-													application.status === 'accepted' ? (
-														<Tag color="#87d068">Accepted</Tag>
-													) : (
-														application.status === 'rejected' && (
-															<Tag color="#f50">Rejected</Tag>
-														)
-													),
+												[
+												application.status === 'accepted' ? (
+													<Tag color="#87d068">Accepted</Tag>
+												) : (
+													application.status === 'rejected' && (
+														<Tag color="#f50">Rejected</Tag>
+													)
+												),
+												application.status === 'applied' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#FFA500" onClick={() => setNextStageApplication(application)}>Got the Interview?</Tag>
+													</div>
+												) : null,
+												application.status === 'interview' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#A020F0" onClick={() => setOutcome(application)}>Change Outcome</Tag>
+													</div>
+												) : null,
 												]
 											}
 										>
@@ -151,12 +175,15 @@ export default function LandingPage() {
 											<br />
 											Title: {application.jobTitle}
 											<br />
-											{'URL: '}
 											<a href={'//' + application.url} target={'_blank'}>
-												{application.url}
+												{'URL to Job Posting'}
 											</a>
 											<br />
 											Notes: {application.description}
+											<br />
+											Upcoming Interview: {application.interview}
+											<br />
+											Action Needed By: {application.reminder}
 										</Card>
 									)
 							)
@@ -169,6 +196,37 @@ export default function LandingPage() {
 				<EditApplication
 					application={editApplication}
 					onClose={() => setEditApplication(false)}
+					updateApplications={updateApplications}
+					email={state.email}
+				/>
+			)}
+			{nextStageApplication && (
+				<NextStageApplication
+					application={nextStageApplication}
+					onClose={() => setNextStageApplication(false)}
+					updateApplications={updateApplications}
+					email={state.email}
+				/>
+			)}
+			{contacted && (
+				<Contact
+					application={contacted}
+					onClose={() => setContacts(false)}
+					updateApplications = {updateApplications}
+					email={state.email}
+				/>
+			)}
+			{chooseAction && (
+				<ChooseAction
+					application={chooseAction}
+					onClose={() => setNextAction(false)}
+					email={state.email}
+				/>
+			)}
+			{changeOutcome && (
+				<ChangeOutcome
+					application={changeOutcome}
+					onClose={() => setOutcome(false)}
 					updateApplications={updateApplications}
 					email={state.email}
 				/>

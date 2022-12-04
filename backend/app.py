@@ -101,6 +101,7 @@ def view_applications():
                 filterString = ""
             out = Applications.find({"email": email}).sort(sort, asc)
             if out:
+                
                 applications_list = []
                 # payload["msg"]="Applications present"
                 for i in out:
@@ -140,7 +141,8 @@ def add_application():
                 "description": description,
                 "url": req["url"],
                 "date": date,
-                "status": req["status"]
+                "status": req["status"], 
+                "contact": "Contact Details: "
             }
             print("dd", application)
             try:
@@ -176,6 +178,54 @@ def delete_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/change_status", methods=["POST"])
+def change_status():
+    try:
+        # if "email" in session:
+        if request:
+            req = request.get_json()
+            email = req["email"]
+            _id = req["_id"]
+            filter = {'_id':ObjectId(_id), "email": email}
+
+            application = {
+                "status": req["status"]
+            }
+            set_values = {"$set": application}
+            modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
+            if modify_document == None:
+                return jsonify({"error": "No such Job ID found for this user's email"}), 400
+            else:
+                return jsonify({"message": "Job Application modified successfully"}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
+
+@app.route("/add_contact_details", methods=["POST"])
+def add_contact_details():
+    try:
+        # if "email" in session:
+        if request:
+            req = request.get_json()
+            email = req["email"]
+            _id = req["_id"]
+            filter = {'_id':ObjectId(_id), "email": email}
+            print(req)
+            application = {
+                "contact": req["contactName"],
+                "reminder" : req["reminder"]
+            }
+            set_values = {"$set": application}
+            modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
+            if modify_document == None:
+                return jsonify({"error": "No such Job ID found for this user's email"}), 400
+            else:
+                return jsonify({"message": "Job Application modified successfully"}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/modify_application", methods=["POST"])
 def modify_application():
@@ -183,6 +233,7 @@ def modify_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            print(req)
             email = req["email"]
             _id = req["_id"]
             filter = {'_id':ObjectId(_id), "email": email}
@@ -211,6 +262,38 @@ def modify_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/next_stage_application", methods=["POST"])
+def next_stage_application():
+    try:
+        # if "email" in session:
+        if request:
+            req = request.get_json()
+            email = req["email"]
+            _id = req["_id"]
+            filter = {'_id':ObjectId(_id), "email": email}
+            if req['status'] == 'applied': 
+                req['status'] = 'interview'
+            # filter = {"_id": jobId, "email": email}
+            print(req)
+            application = {
+                "email": req["email"],
+                "description": req["description"],
+                "reminder": req["reminder"],
+                "interview": req["interview"],
+                "status": req["status"]
+            }
+            set_values = {"$set": application}
+            modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
+            if modify_document == None:
+                return jsonify({"error": "No such Job ID found for this user's email"}), 400
+            else:
+                return jsonify({"message": "Job Application modified successfully"}), 200
+        # else:
+        #     return jsonify({'error': "Not Logged in"}), 400
+    
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/create_profile", methods=["post"])
 def create_profile():
