@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 import AddSavedJob from './AddSavedJob';
 import './SavedJobs.scss';
+import AddCareerFair from './AddCareerFair';
 
 const sortingOptions = [
 	{
