@@ -29,6 +29,7 @@ export default function SavedJobs() {
 
 	useEffect(() => {
 		updateApplications();
+        updateCareerFairs();
 	}, []);
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
@@ -53,9 +54,11 @@ export default function SavedJobs() {
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
+
 	const handleChange = (value) => {
 		var sort = value.split("_")
 		updateApplications(sort[0], sort[1] == "Asc")
+        updateCareerFairs();
 	};
 
 	return (
