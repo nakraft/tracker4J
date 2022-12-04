@@ -16,13 +16,6 @@ UserRecords = db.register
 Applications = db.Applications
 UserProfiles = db.Profiles
 
-today = str(datetime.today()).split()[0]
-query = {"date": {"$gte": today}}
-projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
-item_details = Applications.find(query,projection)
-for item in item_details:
-    print(item)
-
 # from_date = datetime(2022, 11, 5)
 # #myDate = new Date("2016-05-18T16:00:00Z")
 # item_details = Applications.find({'date': {"$gte": "2022-12-01"}})
@@ -31,6 +24,31 @@ for item in item_details:
 # for item in item_details:
 #     print(item)
 
+today = str(datetime.today()).split()[0]
+query = {"date": {"$gte": today}}
+projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+item_details = Applications.find(query,projection)
+for item in item_details:
+    print(item)
+
+# @app.route("/dates")
+# def dates():
+#     today = str(datetime.today()).split()[0]
+#     query = {"date": {"$gte": today}}
+#     projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+#     item_details = Applications.find(query,projection)
+#     # for item in item_details:
+#     #     print(item)
+#     return item_details
+
+@app.route("/test", methods=["get"])
+def test() :
+    today = str(datetime.today()).split()[0]
+    query = {"date": {"$gte": today}}
+    projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+    item_details = Applications.find(query,projection)
+    print(item_details[0])
+    return jsonify(list(item_details))
 
 @app.route("/register", methods=["post"])
 def register():
