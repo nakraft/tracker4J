@@ -295,6 +295,16 @@ def next_stage_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/add_career_fair", methods=["POST"])
+def add_career_fair():
+    try:
+        # if "email" in session:
+        if request:
+            req = request.get_json()
+            print(req)
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 @app.route("/create_profile", methods=["post"])
 def create_profile():
     try:
