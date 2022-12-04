@@ -15,7 +15,7 @@ export default function AddCareerFair({ isOpen, onClose, updateApplications }) {
 
 	const onOk = (values) => {
 		axios
-			.post('/api/add_application', { ...values, email: state.email })
+			.post('/api/add_career_fair', { ...values, status: 'saved', email: state.email })
 			.then(({ data }) => {
 				message.success(data.message);
 			})
