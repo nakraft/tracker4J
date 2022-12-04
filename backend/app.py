@@ -78,7 +78,7 @@ def login():
         else:
             return jsonify({'error': "Email not found"}), 400
     except Exception as e:
-        print(e)
+        #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
 
@@ -124,7 +124,7 @@ def view_applications():
         #     return jsonify({'error': "Not Logged in"}), 400
             
     except Exception as e:
-        print(e)
+        #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/add_application", methods=["POST"])
