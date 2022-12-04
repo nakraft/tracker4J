@@ -20,7 +20,9 @@ const sortingOptions = [
 
 export default function SavedJobs() {
 	const [applications, setApplications] = useState([]);
+    const [careerfairs, setCareerfairs] = useState([]);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
+    const [addCareerFairOpen, setAddCareerFairOpen] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { state } = useLocation();
 
@@ -29,6 +31,7 @@ export default function SavedJobs() {
 	}, []);
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
+    const toggleAddCareerFair = () => setAddCareerFairOpen(!addApplicationOpen);
 
 	const updateApplications = (sort="name", asc=true) => {
 		axios
