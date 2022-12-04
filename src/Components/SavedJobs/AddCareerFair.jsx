@@ -13,6 +13,15 @@ export default function AddCareerFair({ isOpen, onClose, updateApplications }) {
 		onClose();
 	};
 
+	const onOk = (values) => {
+		axios
+			.post('/api/add_application', { ...values, email: state.email })
+			.then(({ data }) => {
+				message.success(data.message);
+			})
+			.catch((err) => message.error(err.response.data?.error));
+	};
+
 	return (
 		<Modal
 			title="Add Career Fair"
@@ -29,7 +38,7 @@ export default function AddCareerFair({ isOpen, onClose, updateApplications }) {
 				</Button>,
 			]}
 		>
-			<Form form={form} layout="vertical" requiredMark={false} >
+			<Form form={form} layout="vertical" requiredMark={false} onFinish={onOk}>
 				<Form.Item
 					label="Career Fair Name"
 					name="careerFairName"
