@@ -121,6 +121,31 @@ export default function SavedJobs() {
 				))}
 				{applications.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
 			</div>
+            <br></br>
+            <br></br>
+            <br></br><h1> Saved Career Fairs </h1>
+            <div className="CareerFairs">
+				{loading && (
+					<>
+						<Card loading />
+						<Card loading />
+					</>
+				)}
+				{careerfairs.map((careerfair) => (
+					<Card className="Job" key={careerfair._id} title={careerfair.careerFairName}>
+						Career Fair Name: {careerfair.careerFairName}
+						<br />
+						Date: {careerfair.date}
+						<br />
+						{'URL: '}
+						<a href={'//' + careerfair.url} target={'_blank'}>
+							{careerfair.url}
+						</a>
+					</Card>
+				))}
+				{careerfairs.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
+			</div>
+
 		</div>
 	);
 }
