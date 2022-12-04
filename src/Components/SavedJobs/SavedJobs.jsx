@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Typography, Select } from 'antd';
+import { Button, DatePicker, Card, Typography, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
@@ -33,7 +33,7 @@ export default function SavedJobs() {
 	}, []);
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
-    const toggleAddCareerFair = () => setAddCareerFairOpen(!addApplicationOpen);
+    const toggleAddCareerFair = () => setAddCareerFairOpen(!addCareerFairOpen);
 
 	const updateApplications = (sort="name", asc=true) => {
 		axios
@@ -54,6 +54,7 @@ export default function SavedJobs() {
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
+
 
 	const handleChange = (value) => {
 		var sort = value.split("_")
@@ -96,12 +97,11 @@ export default function SavedJobs() {
 					onClose={toggleAddApplication}
 					updateApplications={updateApplications}
 				/>
-				<AddSavedJob
-					isOpen={addApplicationOpen}
-					onClose={toggleAddApplication}
-					updateApplications={updateApplications}
+                <AddCareerFair
+					isOpen={addCareerFairOpen}
+					onClose={toggleAddCareerFair}
+					updateApplications={updateCareerFairs}
 				/>
-
 			</div>
             <h1> Saved Jobs </h1>
 			<div className="Jobs">
@@ -147,7 +147,7 @@ export default function SavedJobs() {
 						</a>
 					</Card>
 				))}
-				{careerfairs.length === 0 && <Typography.Text>No Saved Career Fairs</Typography.Text>}
+				{careerfairs.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
 			</div>
 
 		</div>
