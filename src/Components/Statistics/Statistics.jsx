@@ -8,6 +8,7 @@ import './Statistics.scss';
 
 export default function Statistics() {
     const [plot, setPlot] = useState(0);
+    const [indicators, setIndicators] = useState(0);
 	const [loading, setloading] = useState(true);
 	const { state } = useLocation();
 
@@ -23,15 +24,23 @@ export default function Statistics() {
 			})
 			.catch((err) => message.error(err.response?.data?.error))
 			.finally(() => setloading(false));
+        axios
+			.get('/api/get_statistics_indicators?email=' + state.email)
+			.then(data=> {
+                console.log("Data Returned");
+                console.log(data);
+                // console.log(data.json());
+                // console.log(data.dashboard.json());
+                setIndicators(data.data);
+			})
+			.catch((err) => message.error(err.response?.data?.error))
+			.finally(() => setloading(false));
 	}, []);
 
 	return (
-		<div className="statistics_page">
+		<div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
+            <Plot data={indicators.data} layout={indicators.layout}/>
             <Plot data={plot.data} layout={plot.layout}/>
-            {/* <Plot
-                data={plotAble}
-                layout={ {width: 500, height: 500, title: 'Electronics Prices 2016/2017'} } /> */}
-
         </div>
 
 	);

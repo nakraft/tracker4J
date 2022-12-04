@@ -451,21 +451,62 @@ def get_statistics():
             # finds the profile and application details for a users statistics page 
             profile = UserProfiles.find(filter)
             app = Applications.find({"email": email})
+            career = CareerFair.find({"email": email})
             if profile == None:
                 return jsonify({'message': "Create a profile first", "profile": {}}), 200
             else:
-                numberApplications = 0
                 if app:
                     applications_list = []
-
                     for i in app:
                         del i['email']
                         i['_id']=str(i['_id'])
                         applications_list.append(i)
-                    numberApplications = len(applications_list)   
+
+                    careerfair_list = []
+                    for i in career:
+                        del i['email']
+                        i['_id']=str(i['_id'])
+                        i['date'] = i['date'].split('T')[0]
+                        careerfair_list.append(i)
 
                 # built a plotly dashboard based on the profile and applications for the user 
-                json = statistics.build_dashboard(profile, app)
+                json = statistics.build_dashboard(applications_list, careerfair_list)
+                return json
+                # return jsonify({'message': "Found User Profile", "dashboard": json, "numberOfApplications" : numberApplications}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
+
+@app.route("/get_statistics_indicators", methods=["GET"])
+def get_statistics_indicators():
+    try:
+        # if "email" in session:
+        if request:
+            email = request.args.get("email")
+            filter = {"email": email}
+            # finds the profile and application details for a users statistics page 
+            profile = UserProfiles.find(filter)
+            app = Applications.find()
+            career = CareerFair.find()
+            if profile == None:
+                return jsonify({'message': "Create a profile first", "profile": {}}), 200
+            else:
+                if app:
+                    applications_list = []
+                    for i in app:
+                        i['_id']=str(i['_id'])
+                        applications_list.append(i)
+
+                if career: 
+                    careerfair_list = []
+                    for i in career:
+                        i['_id']=str(i['_id'])
+                        i['date'] = i['date'].split('T')[0]
+                        careerfair_list.append(i)
+
+                # built a plotly dashboard based on the profile and applications for the user 
+                json = statistics.build_indicators(applications_list, careerfair_list, email)
                 return json
                 # return jsonify({'message': "Found User Profile", "dashboard": json, "numberOfApplications" : numberApplications}), 200
 
