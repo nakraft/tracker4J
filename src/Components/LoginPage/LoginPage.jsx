@@ -8,9 +8,13 @@ import './LoginPage.scss';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
-
+    const utf8_to_b64 = (str) => {
+		return window.btoa((encodeURIComponent(str)));
+	}
 	const onFinish = (values) => {
 		const loading = message.loading('Loading...', 0);
+        var base64Password = utf8_to_b64(values.password);
+		values.password = base64Password;
 		axios
 			.post('/api/login', values)
 			.then(() => {

@@ -3,6 +3,7 @@ from bson import ObjectId
 from flask import Flask, request, session, jsonify
 from pymongo import MongoClient, ReturnDocument
 import bcrypt
+import base64
 from urllib.parse import urlparse, parse_qs
 
 
@@ -22,8 +23,11 @@ def register():
         req = request.get_json()
         name = {"firstName": req["firstName"], "lastName": req["lastName"]}
         email = req["email"]
-        password = req["password"]
-        confirmPassword = req["confirmPassword"]
+        passwordBase64 = req["password"]
+        confirmPasswordBase64 = req["confirmPassword"]
+
+        password = base64.b64decode(passwordBase64).decode('utf-8')
+        confirmPassword = base64.b64decode(confirmPasswordBase64).decode('utf-8')
 
         email_found = UserRecords.find_one({"email": email})
         if email_found:
@@ -52,7 +56,8 @@ def login():
     try:
         req = request.get_json()
         email = req["email"]
-        password = req["password"]
+        passwordBase64 = req["password"]
+        password = base64.b64decode(passwordBase64).decode('utf-8')
 
         #check if email exists in database
         email_found = UserRecords.find_one({"email": email})
