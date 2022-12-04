@@ -4,7 +4,7 @@ from flask import Flask, request, session, jsonify
 from pymongo import MongoClient, ReturnDocument
 import bcrypt
 from urllib.parse import urlparse, parse_qs
-# Test commit to check for backend build
+
 
 app = Flask(__name__)
 app.secret_key = "testing"
