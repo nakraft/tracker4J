@@ -7,19 +7,19 @@ import axios from 'axios';
 import './Statistics.scss';
 
 export default function Statistics() {
-	const [form] = Form.useForm();
+    const [plot, setPlot] = useState(0);
 	const [loading, setloading] = useState(true);
 	const { state } = useLocation();
-	const [initialValues, setInitialValues] = useState();
-    var plot;
 
 	useEffect(() => {
 		axios
 			.get('/api/get_statistics?email=' + state.email)
-			.then(({ data }) => {
+			.then(data=> {
                 console.log("Data Returned");
-                console.log(data['dashboard']);
-                plot = data['dashboard'];
+                console.log(data);
+                // console.log(data.json());
+                // console.log(data.dashboard.json());
+                setPlot(data.data);
 			})
 			.catch((err) => message.error(err.response?.data?.error))
 			.finally(() => setloading(false));
@@ -27,9 +27,10 @@ export default function Statistics() {
 
 	return (
 		<div className="statistics_page">
-            <Plot
-                data={plot}
-                layout={ {width: 500, height: 500, title: 'Electronics Prices 2016/2017'} } />
+            <Plot data={plot.data} layout={plot.layout}/>
+            {/* <Plot
+                data={plotAble}
+                layout={ {width: 500, height: 500, title: 'Electronics Prices 2016/2017'} } /> */}
 
         </div>
 

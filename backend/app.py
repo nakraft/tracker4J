@@ -454,9 +454,20 @@ def get_statistics():
             if profile == None:
                 return jsonify({'message': "Create a profile first", "profile": {}}), 200
             else:
+                numberApplications = 0
+                if app:
+                    applications_list = []
+
+                    for i in app:
+                        del i['email']
+                        i['_id']=str(i['_id'])
+                        applications_list.append(i)
+                    numberApplications = len(applications_list)   
+
                 # built a plotly dashboard based on the profile and applications for the user 
                 json = statistics.build_dashboard(profile, app)
-                return jsonify({'message': "Found User Profile", "dashboard": json}), 200
+                return json
+                # return jsonify({'message': "Found User Profile", "dashboard": json, "numberOfApplications" : numberApplications}), 200
 
     except Exception as e:
         print(e)
