@@ -5,6 +5,8 @@ from pymongo import MongoClient, ReturnDocument
 import bcrypt
 from urllib.parse import urlparse, parse_qs
 
+import statistics
+
 
 app = Flask(__name__)
 app.secret_key = "testing"
@@ -373,6 +375,26 @@ def view_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/get_statistics", methods=["GET"])
+def get_statistics():
+    try:
+        # if "email" in session:
+        if request:
+            email = request.args.get("email")
+            filter = {"email": email}
+            # finds the profile and application details for a users statistics page 
+            profile = UserProfiles.find(filter)
+            app = Applications.find({"email": email})
+            if profile == None:
+                return jsonify({'message': "Create a profile first", "profile": {}}), 200
+            else:
+                # built a plotly dashboard based on the profile and applications for the user 
+                json = statistics.build_dashboard(profile, app)
+                return jsonify({'message': "Found User Profile", "dashboard": json}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/modify_profile", methods=["POST"])
 def modify_profile(): 
