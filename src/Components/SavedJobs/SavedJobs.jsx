@@ -43,6 +43,15 @@ export default function SavedJobs() {
 			.finally(() => setLoading(false));
 	};
 
+	const updateCareerFairs = (sort="url", asc=true) => {
+		axios
+			.get('/api/view_careerfairs?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
+			.then(({ data }) =>
+				setCareerfairs(data.applications)
+			)
+			.catch((err) => console.log(err))
+			.finally(() => setLoading(false));
+	};
 	const handleChange = (value) => {
 		var sort = value.split("_")
 		updateApplications(sort[0], sort[1] == "Asc")
