@@ -331,6 +331,36 @@ def add_career_fair():
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
+
+@app.route("/view_careerfairs", methods=["GET"])
+def view_careerfairs():
+    try:
+        # if "email" in session:
+        if request:
+            # email = session["email"]
+            email = request.args.get("email")
+#            sort = request.args.get("sort")
+#            asc = 1 if request.args.get("asc") == "true" else -1
+            out = CareerFair.find({"email": email})#.sort(sort, asc)
+            if out:
+                careerfair_list = []
+                # payload["msg"]="Applications present"
+                for i in out:
+                    del i['email']
+                    i['_id']=str(i['_id'])
+                    i['date'] = i['date'].split('T')[0]
+                    careerfair_list.append(i)
+                return jsonify({'message': 'Applications found', 'applications': careerfair_list}), 200
+            else:
+                return jsonify({'message': 'You have no career fairs added'}), 200
+        # else:
+        #     return jsonify({'error': "Not Logged in"}), 400
+            
+    except Exception as e:
+        #print(e)
+        return jsonify({'error': "Something went wrong"}), 400
+
+
 @app.route("/create_profile", methods=["post"])
 def create_profile():
     try:
