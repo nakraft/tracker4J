@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, DatePicker, Card, Typography, Select } from 'antd';
+import { Button, Card, Typography, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 import AddSavedJob from './AddSavedJob';
 import './SavedJobs.scss';
-import AddCareerFair from './AddCareerFair';
 
 const sortingOptions = [
 	{
@@ -21,19 +20,15 @@ const sortingOptions = [
 
 export default function SavedJobs() {
 	const [applications, setApplications] = useState([]);
-    const [careerfairs, setCareerfairs] = useState([]);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
-    const [addCareerFairOpen, setAddCareerFairOpen] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const { state } = useLocation();
 
 	useEffect(() => {
 		updateApplications();
-        updateCareerFairs();
 	}, []);
 
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
-    const toggleAddCareerFair = () => setAddCareerFairOpen(!addCareerFairOpen);
 
 	const updateApplications = (sort="name", asc=true) => {
 		axios
@@ -45,21 +40,9 @@ export default function SavedJobs() {
 			.finally(() => setLoading(false));
 	};
 
-	const updateCareerFairs = (sort="url", asc=true) => {
-		axios
-			.get('/api/view_careerfairs?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
-			.then(({ data }) =>
-				setCareerfairs(data.applications)
-			)
-			.catch((err) => console.log(err))
-			.finally(() => setLoading(false));
-	};
-
-
 	const handleChange = (value) => {
 		var sort = value.split("_")
 		updateApplications(sort[0], sort[1] == "Asc")
-        updateCareerFairs();
 	};
 
 	return (
@@ -82,28 +65,12 @@ export default function SavedJobs() {
 				>
 					Add Application
 				</Button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <Button
-					id="add-career-fair"
-					type="primary"
-					size="large"
-					icon={<PlusOutlined />}
-					onClick={toggleAddCareerFair}
-				>
-					Add Career Fair
-				</Button>
 				<AddSavedJob
 					isOpen={addApplicationOpen}
 					onClose={toggleAddApplication}
 					updateApplications={updateApplications}
 				/>
-                <AddCareerFair
-					isOpen={addCareerFairOpen}
-					onClose={toggleAddCareerFair}
-					updateApplications={updateCareerFairs}
-				/>
 			</div>
-            <h1> Saved Jobs </h1>
 			<div className="Jobs">
 				{loading && (
 					<>
@@ -125,31 +92,6 @@ export default function SavedJobs() {
 				))}
 				{applications.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
 			</div>
-            <br></br>
-            <br></br>
-            <br></br><h1> Saved Career Fairs </h1>
-            <div className="CareerFairs">
-				{loading && (
-					<>
-						<Card loading />
-						<Card loading />
-					</>
-				)}
-				{careerfairs.map((careerfair) => (
-					<Card className="Job" key={careerfair._id} title={careerfair.careerFairName}>
-						Career Fair Name: {careerfair.careerFairName}
-						<br />
-						Date: {careerfair.date}
-						<br />
-						{'URL: '}
-						<a href={'//' + careerfair.url} target={'_blank'}>
-							{careerfair.url}
-						</a>
-					</Card>
-				))}
-				{careerfairs.length === 0 && <Typography.Text>No Saved Jobs</Typography.Text>}
-			</div>
-
 		</div>
 	);
 }
