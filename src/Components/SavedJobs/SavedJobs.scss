@@ -2,6 +2,9 @@
 	.SubHeader {
 		display: flex;
 		padding: 0.7rem;
+		.sortingDropdown{
+			margin-right: 10px;
+		}
 	}
 
 	.Jobs {

@@ -16,31 +16,6 @@ UserRecords = db.register
 Applications = db.Applications
 UserProfiles = db.Profiles
 
-# from_date = datetime(2022, 11, 5)
-# #myDate = new Date("2016-05-18T16:00:00Z")
-# item_details = Applications.find({'date': {"$gte": "2022-12-01"}})
-# #item_details = Applications.find({}, {"date":1, "_id":0})
-# #item_details = Applications.find({}, {"date":1, "_id": 0,  "dateVerify": {"$gte": ["date", "2022-12-01"]}})
-# for item in item_details:
-#     print(item)
-
-today = str(datetime.today()).split()[0]
-query = {"date": {"$gte": today}}
-projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
-item_details = Applications.find(query,projection)
-for item in item_details:
-    print(item)
-
-# @app.route("/dates")
-# def dates():
-#     today = str(datetime.today()).split()[0]
-#     query = {"date": {"$gte": today}}
-#     projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
-#     item_details = Applications.find(query,projection)
-#     # for item in item_details:
-#     #     print(item)
-#     return item_details
-
 @app.route("/test", methods=["get"])
 def test() :
     today = str(datetime.today()).split()[0]
@@ -122,7 +97,9 @@ def view_applications():
         if request:
             # email = session["email"]
             email = request.args.get("email")
-            out = Applications.find({"email": email})
+            sort = request.args.get("sort")
+            asc = 1 if request.args.get("asc") == "true" else -1
+            out = Applications.find({"email": email}).sort(sort, asc)
             if out:
                 applications_list = []
                 # payload["msg"]="Applications present"
@@ -146,27 +123,26 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            try:
+                description = req["description"]
+            except:
+                description = ""
+            try:
+                date = req["date"]
+            except:
+                date = ""
             application = {
                 "email": req["email"],
                 "companyName": req["companyName"],
                 "jobTitle": req["jobTitle"],
                 "jobId": req["jobId"],
-                "description": req["description"],
+                "description": description,
                 "url": req["url"],
-                # "details": {
-                #     "Industry": "Software Development",
-                #     "Employment Type": "Full-time",
-                #     "Seniority": "Entry Level",
-                #     "Posted Date": datetime.datetime(2022, 7, 23),
-                #     "Location": {
-                #         "City": "Seattle",
-                #         "State": "WA"
-                #     },
-                # },
+                
                 "date": req["date"],
-                "status": req["status"],
-                "uploadResume": req["uploadResume"]
+                "status": req["status"]
             }
+            print("dd", application)
             try:
                 Applications.insert_one(application)
                 return jsonify({"message": "Application added successfully"}),200

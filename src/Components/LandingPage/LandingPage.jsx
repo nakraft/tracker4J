@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
-import { Button, Card, Tag, Typography } from 'antd';
+import { Button, Card, Tag, Typography, Dropdown, Select } from 'antd';
 import { EditFilled, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
 import './LandingPage.scss'
+import Popup from 'reactjs-popup';
 
 // import item_details from '../../../.,/backend/app.py';
 
@@ -17,6 +17,25 @@ const columns = {
    interview: 'Interview',
    decision: 'Decision',
 };
+
+const sortingOptions = [
+	{
+	value: 'companyName_Asc',
+	label: 'Company Name Asc',
+	},
+	{
+	value: 'companyName_Desc',
+	label: 'Company Name Desc',
+	},
+	{
+	value: 'date_Asc',
+	label: 'Date Asc',
+	},
+	{
+	value: 'date_Desc',
+	label: 'Date Desc',
+	}
+]
 
 export default function LandingPage() {
    const [applications, setApplications] = useState([]);
@@ -30,30 +49,30 @@ export default function LandingPage() {
       updateApplications();
    }, []);
 
-   const updateApplications = () => {
-      axios
-         .get('/api/view_applications?email=' + state.email)
-         .then(({ data }) => setApplications(data.applications))
-         .catch((err) => console.log(err))
-         .finally(() => setLoading(false));
-   };
+   const updateApplications = (sort="name", asc=true) => {
+	axios
+		.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
+		.then(({ data }) => setApplications(data.applications))
+		.catch((err) => console.log(err))
+		.finally(() => setLoading(false));
+	};
 
-    useEffect(() => {
-      axios
-         .get('/api/test')
-         .then(({ data }) => settestVariable(data))
-         .catch((err) => message.error(err.response?.data?.error));
-   }, []);
+	useEffect(() => {
+		axios
+		   .get('/api/test')
+		   .then(({ data }) => settestVariable(data))
+		   .catch((err) => message.error(err.response?.data?.error));
+	 }, []);
+	
+	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
-   const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
-    console.log(testVariable);
-   return (
+	console.log(testVariable);
 
-
-      <div className="LandingPage">
-         <div className="SubHeader">
-            <div className="flex" />
-            <Popup trigger={<Button id="modal" > Reminders </Button>}
+	return (
+		<div className="LandingPage">
+			<div className="SubHeader">
+				<div className="flex" />
+				<Popup trigger={<Button id="modal" > Reminders </Button>}
             position="down" size="100px">
             <div><b>Upcoming interviews</b></div>
             {/* {
@@ -88,21 +107,21 @@ export default function LandingPage() {
             </div>
             </Popup>
             &nbsp; &nbsp;
-            <Button
-               id="add-application"
-               type="primary"
-               size="large"
-               icon={<PlusOutlined />}
-               onClick={toggleAddApplication}
-            >
-               Add Application
-            </Button>
-            <AddApplication
-               isOpen={addApplicationOpen}
-               onClose={toggleAddApplication}
-               updateApplications={updateApplications}
-            />
-         </div>
+				<Button
+					id="add-application"
+					type="primary"
+					size="large"
+					icon={<PlusOutlined />}
+					onClick={toggleAddApplication}
+				>
+					Add Application
+				</Button>
+				<AddApplication
+					isOpen={addApplicationOpen}
+					onClose={toggleAddApplication}
+					updateApplications={updateApplications}
+				/>
+			</div>
 
          <div className="MainContent">
             {Object.keys(columns).map((col) => (
