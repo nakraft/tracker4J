@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Popup from 'reactjs-popup';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input,  Modal } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { format } from 'date-fns'
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
+
 
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
@@ -45,8 +45,8 @@ export default function LandingPage() {
 	const [loading, setLoading] = useState(true);
 	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
 	const [editApplication, setEditApplication] = useState(false);
-	const [reminder, setReminder] = useState(true);
 	const { state } = useLocation();
+   const [modalShown, toggleModal] = React.useState(true);
 
 	useEffect(() => {
 		updateApplications();
@@ -54,10 +54,17 @@ export default function LandingPage() {
 
    useEffect(() => {
       axios
-         .get('/api/test')
+         .get('/api/interviews?email=' + state.email)
          .then(({ data }) => settestVariable(data))
-         .catch((err) => message.error(err.response?.data?.error));
+         .catch((err) => console.log(err));
    }, []);
+
+   // const config = {
+   //    headers: {
+   //      accept: 'application/json',
+   //    },
+   //    data: {},
+   //  };
 
 	const updateApplications = () => {
 		axios
@@ -78,16 +85,29 @@ export default function LandingPage() {
 		setFilter(string)
 	};
 
+   function Modal({ children, shown, close }) {
+      return shown ? (
+          <div>
+            <button onClick={close}>Close</button>
+            {children}
+          </div>
+      ) : null;
+    }
+
+
 	return (
 		<div className="LandingPage">
 			<div className="SubHeader">
          
-         <Modal trigger={<Button id="modal" > Reminders </Button>}
-            position="down" size="100px">
+         <Modal
+                shown={modalShown}
+                close={() => {
+                toggleModal(false);
+                }}
+                dialogClassName="modal-90w"
+                aria-labelledby="contained-modal-title-vcenter"
+            >
             <div><b>Upcoming interviews</b></div>
-            {/* {
-               console.log(item_details.entries())
-            } */}
                {testVariable.map(({companyName, date, jobTitle}) => {
 				<table>
 					<tr>
@@ -104,7 +124,7 @@ export default function LandingPage() {
 				</table>
                   return (
 					<tr>
-                    <td width="100px">{companyName}</td>
+               <td width="100px">{companyName}</td>
 					<td width="150px">{jobTitle}</td>
 					<td width="200px">{date}</td>
                     </tr>
@@ -239,13 +259,17 @@ export default function LandingPage() {
 					email={state.email}
 				/>
 			)}
-			{/* {reminder && (
+         
+
+			{/* {open && (
 				<Reminder
-				application={reminder}
-				onClose={() => setReminder(false)}
+				
+				onClose={() => openModal(false)}
 				email={state.email}
 				/>
 			)} */}
 		</div>
+
+      
 	);
 }
