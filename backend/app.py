@@ -23,6 +23,11 @@ UserProfiles = db.Profiles
 sender_address = 'sherbadcastled@gmail.com'
 sender_pass =  'cqiejirwlcowgmvc'
 
+class LRUCache:
+    def __init__(self, capacity):
+
+    def get(self, key):
+
 @app.route("/register", methods=["post"])
 def register():
     try:
