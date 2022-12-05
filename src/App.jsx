@@ -14,7 +14,7 @@ import Statistics from './Components/Statistics/Statistics';
 import './App.scss';
 
 const { Header, Content } = Layout;
-
+let url = "localhost:8080"
 const signedInPages = {
 	'/home': 'My Applications',
 	'/interested': 'Saved Jobs',
@@ -78,6 +78,12 @@ export default function App() {
 											<div onClick={() => navigate('/profile', { state })}>
 												Profile
 											</div>
+										),
+									},
+									{
+										key: 'Upload Resume',
+										label: (
+											<a href={url} target="_blank">Upload Resume</a>
 										),
 									},
 									{

@@ -119,7 +119,7 @@ export default function SavedJobs() {
 						<br />
 						{'URL: '}
 						<a href={'//' + application.url} target={'_blank'}>
-							{application.url}
+							Click here for more details on {application.jobTitle} at {application.companyName}
 						</a>
 					</Card>
 				))}
@@ -143,7 +143,7 @@ export default function SavedJobs() {
 						<br />
 						{'URL: '}
 						<a href={'//' + careerfair.url} target={'_blank'}>
-							{careerfair.url}
+							Click here for more details on {careerfair.careerFairName}
 						</a>
 					</Card>
 				))}
