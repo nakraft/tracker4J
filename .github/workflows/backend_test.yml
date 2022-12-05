@@ -13,7 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.8", "3.10"]
-        node-version: [16.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -25,7 +24,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r backend/requirements.txt
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 16.x
       uses: actions/setup-node@v3
     - name: Test all
       run: |
@@ -43,6 +42,6 @@ jobs:
     - name: CodeCov
       uses: codecov/codecov-action@v3
       with:
-        token: 43da82bb-d4d6-46f6-82e8-6e3cf661d362
+        token:  a891e16e-8e19-4db2-8b59-04ba1664be2c
 
 
