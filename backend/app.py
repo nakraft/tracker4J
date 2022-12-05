@@ -4,12 +4,14 @@ from flask import Flask, request, session, jsonify
 from pymongo import MongoClient, ReturnDocument
 import bcrypt
 from urllib.parse import urlparse, parse_qs
+from apscheduler.schedulers.background import BackgroundScheduler
+import datetime
 
 
 app = Flask(__name__)
 app.secret_key = "testing"
 
-client = MongoClient("mongodb+srv://se_test_user:se_test_user123@cluster0.npdziph.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database("Test")
 UserRecords = db.register
 Applications = db.Applications
@@ -93,6 +95,7 @@ def view_applications():
         # if "email" in session:
         if request:
             # email = session["email"]
+            print(request.args)
             email = request.args.get("email")
             sort = request.args.get("sort")
             asc = 1 if request.args.get("asc") == "true" else -1
@@ -124,6 +127,7 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            print(request.args)
             try:
                 description = req["description"]
             except:
@@ -370,6 +374,12 @@ def clear_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+def send_reminders():
+    print("Hi")
+
 
 if __name__ == "__main__":
-  app.run(debug=True, host="0.0.0.0", port=8000)
+  sched = BackgroundScheduler(daemon=True)
+  sched.add_job(send_reminders, 'cron', day='*', hour='5')
+  sched.start()
+  app.run(debug=True, host="0.0.0.0", port=8000, threaded=True)
