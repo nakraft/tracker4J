@@ -379,7 +379,7 @@ def clear_profile():
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
-    current_date = datetime.now.strftime(%Y-%m-%d)      
+    current_date = datetime.now.strftime("%Y-%m-%d")      
     records = Applications.find({"date":{"$regex":"^"+current_date}})
     for record in records:
         receiver_address = record['email']
@@ -387,8 +387,8 @@ def send_reminders():
         message = MIMEMultipart()
 
         message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
-        mail_content = 'Hello,
-        This is a reminder email about your interview for the role '+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
+        mail_content = '''Hello,
+        This is a reminder email about your interview for the role '''+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
        
         message['From'] = sender_address
         message['To'] = receiver_address
