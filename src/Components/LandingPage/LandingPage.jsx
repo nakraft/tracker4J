@@ -12,6 +12,7 @@ import NextStageApplication from '../AddApplication/NextStageApplication';
 import Contact from '../AddApplication/Contact';
 import ChooseAction from '../AddApplication/ChooseAction';
 import ChangeOutcome from '../AddApplication/ChangeOutcome';
+import Pagination from '../Pagination/Pagination';
 import './LandingPage.scss';
 
 const columns = {
@@ -50,6 +51,7 @@ export default function LandingPage() {
 	const [contacted, setContacts] = useState(false);
 	const [chooseAction, setNextAction] = useState(false);
 	const [changeOutcome, setOutcome] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
 	const { state } = useLocation();
 
 	useEffect(() => {
@@ -57,11 +59,18 @@ export default function LandingPage() {
 	}, [sort, filter]);
 
 	const updateApplications = () => {
+		console.log('page number ' + currentPage)
 		axios
-			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter)
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter + "&pagenumber=" + currentPage)
 			.then(({ data }) => setApplications(data.applications))
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
+	};
+
+	const setThisPage = (value) => {
+		console.log("here I am " + value) // TODO: The current page is not getting set correctly
+		setCurrentPage(value)
+		updateApplications()
 	};
 
 	const handleChange = (value) => {
@@ -229,6 +238,13 @@ export default function LandingPage() {
 					onClose={() => setOutcome(false)}
 					updateApplications={updateApplications}
 					email={state.email}
+				/>
+			)}
+			{currentPage && (
+				<Pagination
+					nPages = {4} // this needs to not be hardcoded, pass this variable from backend about number of pages needed for this particular user 
+					currentPage = { currentPage } 
+					setCurrentPage = { setThisPage }
 				/>
 			)}
 		</div>
