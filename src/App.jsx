@@ -10,6 +10,7 @@ import LandingPage from './Components/LandingPage/LandingPage';
 import SavedJobs from './Components/SavedJobs/SavedJobs';
 import RecommendedJobs from './Components/RecommendedJobs/RecommendedJobs';
 import Profile from './Components/Profile/Profile';
+import Statistics from './Components/Statistics/Statistics';
 import './App.scss';
 
 const { Header, Content } = Layout;
@@ -80,6 +81,14 @@ export default function App() {
 										),
 									},
 									{
+										key: 'statistics',
+										label: (
+											<div onClick={() => navigate('/statistics', { state })}>
+												Statistics
+											</div>
+										),
+									},
+									{
 										key: 'logout',
 										label: (
 											<Button type="primary" danger onClick={logout} block>
@@ -100,6 +109,7 @@ export default function App() {
 						<Route path="/interested" element={<SavedJobs />} />
 						<Route path="/recommended" element={<RecommendedJobs />} />
 						<Route path="/profile" element={<Profile />} />
+						<Route path="/statistics" element={<Statistics />} />
 						<Route path="*" element={<Navigate to="/home" replace />} />
 					</Routes>
 				</Content>

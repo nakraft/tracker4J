@@ -6,6 +6,8 @@ import bcrypt
 import base64
 from urllib.parse import urlparse, parse_qs
 
+import statistics
+
 
 app = Flask(__name__)
 app.secret_key = "testing"
@@ -444,6 +446,76 @@ def view_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+@app.route("/get_statistics", methods=["GET"])
+def get_statistics():
+    try:
+        # if "email" in session:
+        if request:
+            email = request.args.get("email")
+            filter = {"email": email}
+            # finds the profile and application details for a users statistics page 
+            profile = UserProfiles.find(filter)
+            app = Applications.find({"email": email})
+            career = CareerFair.find({"email": email})
+            if profile == None:
+                return jsonify({'message': "Create a profile first", "profile": {}}), 200
+            else:
+                if app:
+                    applications_list = []
+                    for i in app:
+                        del i['email']
+                        i['_id']=str(i['_id'])
+                        applications_list.append(i)
+
+                    careerfair_list = []
+                    for i in career:
+                        del i['email']
+                        i['_id']=str(i['_id'])
+                        i['date'] = i['date'].split('T')[0]
+                        careerfair_list.append(i)
+
+                # built a plotly dashboard based on the profile and applications for the user 
+                json = statistics.build_dashboard(applications_list, careerfair_list)
+                return json
+                
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
+
+@app.route("/get_statistics_indicators", methods=["GET"])
+def get_statistics_indicators():
+    try:
+        # if "email" in session:
+        if request:
+            email = request.args.get("email")
+            filter = {"email": email}
+            # finds the profile and application details for a users statistics page 
+            profile = UserProfiles.find(filter)
+            app = Applications.find()
+            career = CareerFair.find()
+            if profile == None:
+                return jsonify({'message': "Create a profile first", "profile": {}}), 200
+            else:
+                if app:
+                    applications_list = []
+                    for i in app:
+                        i['_id']=str(i['_id'])
+                        applications_list.append(i)
+
+                if career: 
+                    careerfair_list = []
+                    for i in career:
+                        i['_id']=str(i['_id'])
+                        i['date'] = i['date'].split('T')[0]
+                        careerfair_list.append(i)
+
+                # built a plotly dashboard based on the profile and applications for the user 
+                json = statistics.build_indicators(applications_list, careerfair_list, email)
+                return json
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 @app.route("/modify_profile", methods=["POST"])
 def modify_profile(): 
