@@ -6,7 +6,9 @@ import bcrypt
 from urllib.parse import urlparse, parse_qs
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
 app.secret_key = "testing"
@@ -375,8 +377,7 @@ def clear_profile():
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
-    print("Hi")
-
+    
 
 if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
