@@ -431,4 +431,5 @@ if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
   sched.add_job(send_reminders, 'cron', day='*', hour='5')
   sched.start()
+  lcache = LRUCache(100)
   app.run(debug=True, host="0.0.0.0", port=8000, threaded=True)
