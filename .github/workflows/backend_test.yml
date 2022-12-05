@@ -2,9 +2,9 @@ name: Test
 
 on:
   push:
-    branches: [ "master", "development" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master", "development" ]
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -13,6 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
+        node-version: [16.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,9 +25,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r backend/requirements.txt
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
     - name: Test all
       run: |
         python backend/tests.py
+        npm run test
 #     - name: Code Coverage
 #       run: |
 #         python -m pip install coverage
