@@ -5,7 +5,7 @@ from pymongo import MongoClient, ReturnDocument
 import bcrypt
 from urllib.parse import urlparse, parse_qs
 from apscheduler.schedulers.background import BackgroundScheduler
-import datetime
+from datetime import datetime
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -377,7 +377,7 @@ def clear_profile():
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
-    
+    current_date = datetime.now.strftime(%Y-%m-%d)  
 
 if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
