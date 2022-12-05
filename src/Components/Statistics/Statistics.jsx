@@ -38,9 +38,13 @@ export default function Statistics() {
 	}, []);
 
 	return (
-		<div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
-            <Plot data={indicators.data} layout={indicators.layout}/>
-            <Plot data={plot.data} layout={plot.layout}/>
+        <div>
+            <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Plot data={indicators.data} layout={indicators.layout}/>
+            </div>
+            <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
+                <Plot data={plot.data} layout={plot.layout}/>
+            </div>
         </div>
 
 	);

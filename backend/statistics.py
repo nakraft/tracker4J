@@ -22,12 +22,11 @@ def build_indicators(applications, careers, email):
     df = pd.DataFrame(applications)
     print(df.columns)
     numMe = len(df[df['email'] == email])
-    numTotal = len(df)
-    print(numMe, numTotal, 'application counts')
+    numTotal = round(df.groupby('email')['_id'].count().mean(), 2)
 
     dff = pd.DataFrame(careers)
     numCareerMe = len(dff[dff['email'] == email])
-    numCareerTotal = len(dff)
+    numCareerTotal = round(dff.groupby('email')['_id'].count().mean(), 2)
 
     fig = go.Figure()
 
