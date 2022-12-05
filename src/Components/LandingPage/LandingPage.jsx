@@ -41,6 +41,9 @@ const sortingOptions = [
 
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
+	const [page, setPage] = useState(1);
+	const [prev, setPrev] = useState(false);
+	const [next, setNext] = useState(false);
 	const [filter, setFilter] = useState("");
 	const [sort, setSort] = useState("name_Asc");
 	const [loading, setLoading] = useState(true);
@@ -58,8 +61,14 @@ export default function LandingPage() {
 
 	const updateApplications = () => {
 		axios
-			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter)
-			.then(({ data }) => setApplications(data.applications))
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter + "&page=" + page)
+			.then(({ data }) => {
+				setApplications(data.applications)
+				if (data.end) setNext(true)
+				else setNext(false)
+				if (page == 1) setPrev(true)
+				else setPrev(false)
+			})
 			.catch((err) => console.log(err))
 			.finally(() => setLoading(false));
 	};
@@ -74,6 +83,14 @@ export default function LandingPage() {
 	const onSearch = (string) => {
 		setFilter(string)
 	};
+
+	const handlePrev = () => {
+		setPage(page-1)
+	}
+
+	const handleNext = () => {
+		setPage(page+1)
+	}
 
 	return (
 		<div className="LandingPage">
@@ -191,6 +208,11 @@ export default function LandingPage() {
 						{applications.length === 0 && 'No applications found.'}
 					</div>
 				))}
+			</div>
+			<div>
+				<Button onClick={handlePrev} disabled={prev}>Prev</Button>
+				<span>{page}</span>
+				<Button onClick={handleNext} disabled={next}>Next</Button>
 			</div>
 			{editApplication && (
 				<EditApplication
