@@ -2,12 +2,12 @@
 
 import React from 'react'
 
-const Pagination = ({ nPages, currentPage, setCurrentPage}) => {
+const Pagination = ({ nPages, currentPage, makeCurrentPage}) => {
 
     const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
 
     const setPage = (values) => {
-        setCurrentPage(values)
+        makeCurrentPage(values)
 	};
 
     return (

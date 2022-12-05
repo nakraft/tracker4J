@@ -51,15 +51,14 @@ export default function LandingPage() {
 	const [contacted, setContacts] = useState(false);
 	const [chooseAction, setNextAction] = useState(false);
 	const [changeOutcome, setOutcome] = useState(false);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState("1");
 	const { state } = useLocation();
 
 	useEffect(() => {
 		updateApplications();
-	}, [sort, filter]);
+	}, [sort, filter, currentPage]);
 
 	const updateApplications = () => {
-		console.log('page number ' + currentPage)
 		axios
 			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter + "&pagenumber=" + currentPage)
 			.then(({ data }) => setApplications(data.applications))
@@ -68,9 +67,8 @@ export default function LandingPage() {
 	};
 
 	const setThisPage = (value) => {
-		console.log("here I am " + value) // TODO: The current page is not getting set correctly
-		setCurrentPage(value)
-		updateApplications()
+		setCurrentPage(value);
+		updateApplications();
 	};
 
 	const handleChange = (value) => {
@@ -244,7 +242,7 @@ export default function LandingPage() {
 				<Pagination
 					nPages = {4} // this needs to not be hardcoded, pass this variable from backend about number of pages needed for this particular user 
 					currentPage = { currentPage } 
-					setCurrentPage = { setThisPage }
+					makeCurrentPage = { setThisPage }
 				/>
 			)}
 		</div>
