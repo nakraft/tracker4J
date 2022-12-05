@@ -472,8 +472,7 @@ def get_statistics():
                 # built a plotly dashboard based on the profile and applications for the user 
                 json = statistics.build_dashboard(applications_list, careerfair_list)
                 return json
-                # return jsonify({'message': "Found User Profile", "dashboard": json, "numberOfApplications" : numberApplications}), 200
-
+                
     except Exception as e:
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
@@ -508,7 +507,6 @@ def get_statistics_indicators():
                 # built a plotly dashboard based on the profile and applications for the user 
                 json = statistics.build_indicators(applications_list, careerfair_list, email)
                 return json
-                # return jsonify({'message': "Found User Profile", "dashboard": json, "numberOfApplications" : numberApplications}), 200
 
     except Exception as e:
         print(e)

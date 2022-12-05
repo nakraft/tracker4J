@@ -16,10 +16,6 @@ export default function Statistics() {
 		axios
 			.get('/api/get_statistics?email=' + state.email)
 			.then(data=> {
-                console.log("Data Returned");
-                console.log(data);
-                // console.log(data.json());
-                // console.log(data.dashboard.json());
                 setPlot(data.data);
 			})
 			.catch((err) => message.error(err.response?.data?.error))
@@ -27,10 +23,6 @@ export default function Statistics() {
         axios
 			.get('/api/get_statistics_indicators?email=' + state.email)
 			.then(data=> {
-                console.log("Data Returned");
-                console.log(data);
-                // console.log(data.json());
-                // console.log(data.dashboard.json());
                 setIndicators(data.data);
 			})
 			.catch((err) => message.error(err.response?.data?.error))
