@@ -30,6 +30,11 @@ class LRUCache:
 
 
     def get(self, key):
+        if key not in self.cache:
+	    return -1
+	else:
+	    self.cache.move_to_end(key)
+	    return self.cache[key]
 
 @app.route("/register", methods=["post"])
 def register():
