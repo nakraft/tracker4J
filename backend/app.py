@@ -382,7 +382,9 @@ def send_reminders():
     for record in records:
         receiver_address = record['email']
         message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
-
+        mail_content = 'Hello,
+        This is a reminder email about your interview for the role '+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
+        
 
 
 if __name__ == "__main__":
