@@ -38,7 +38,5 @@ jobs:
 #         # echo "Code coverage = $percent"
     - name: CodeCov
       uses: codecov/codecov-action@v3
-      with:
-        token:  a891e16e-8e19-4db2-8b59-04ba1664be2c
 
 
