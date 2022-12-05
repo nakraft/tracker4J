@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
+import Popup from 'reactjs-popup';
+import { Button, Card, Tag, Typography, Dropdown, Select, Input,  Modal } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { format } from 'date-fns'
@@ -8,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
-import Reminder from '../Reminder/Reminder';
+// import Reminder from '../Reminder/Reminder';
 import './LandingPage.scss';
 
 const columns = {
@@ -38,6 +39,7 @@ const sortingOptions = [
 
 export default function LandingPage() {
 	const [applications, setApplications] = useState([]);
+   const [testVariable, settestVariable] = useState([]);
 	const [filter, setFilter] = useState("");
 	const [sort, setSort] = useState("name_Asc");
 	const [loading, setLoading] = useState(true);
@@ -49,6 +51,13 @@ export default function LandingPage() {
 	useEffect(() => {
 		updateApplications();
 	}, [sort, filter]);
+
+   useEffect(() => {
+      axios
+         .get('/api/test')
+         .then(({ data }) => settestVariable(data))
+         .catch((err) => message.error(err.response?.data?.error));
+   }, []);
 
 	const updateApplications = () => {
 		axios
@@ -72,6 +81,42 @@ export default function LandingPage() {
 	return (
 		<div className="LandingPage">
 			<div className="SubHeader">
+         
+         <Modal trigger={<Button id="modal" > Reminders </Button>}
+            position="down" size="100px">
+            <div><b>Upcoming interviews</b></div>
+            {/* {
+               console.log(item_details.entries())
+            } */}
+               {testVariable.map(({companyName, date, jobTitle}) => {
+				<table>
+					<tr>
+					<th>
+						Company Name
+					</th>
+					<th>
+						Job title
+					</th>
+					<th>
+						Interview Date
+					</th>
+					</tr>
+				</table>
+                  return (
+					<tr>
+                    <td width="100px">{companyName}</td>
+					<td width="150px">{jobTitle}</td>
+					<td width="200px">{date}</td>
+                    </tr>
+                  );
+               }
+               )
+            }
+            <div>
+
+            </div>
+            </Modal>
+    
 				<Input.Search
 					placeholder="search text"
 					allowClear
@@ -194,13 +239,13 @@ export default function LandingPage() {
 					email={state.email}
 				/>
 			)}
-			{reminder && (
+			{/* {reminder && (
 				<Reminder
 				application={reminder}
 				onClose={() => setReminder(false)}
 				email={state.email}
 				/>
-			)}
+			)} */}
 		</div>
 	);
 }
