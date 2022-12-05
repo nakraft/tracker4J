@@ -40,7 +40,7 @@ class LRUCache:
 		self.cache[key] = value
 		self.cache.move_to_end(key)
 		if len(self.cache) > self.capacity:
-			self.cache.popitem(last = False)
+		    self.cache.popitem(last = False)
 
 @app.route("/register", methods=["post"])
 def register():
@@ -118,8 +118,10 @@ def view_applications():
     try:
         # if "email" in session:
         if request:
+            filtered_applications_list = lcache.get(str(request))
+            if filtered_applications_list != -1:
+                return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             # email = session["email"]
-            print(request.args)
             email = request.args.get("email")
             sort = request.args.get("sort")
             asc = 1 if request.args.get("asc") == "true" else -1
