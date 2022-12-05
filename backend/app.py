@@ -391,9 +391,14 @@ def send_reminders():
         message['From'] = sender_address
         message['To'] = receiver_address
 
-        
+        message.attach(MIMEText(mail_content, 'plain'))
 
-      
+        try:
+            session = smtplib.SMTP('smtp.gmail.com', 587)
+            session.login(sender_address, sender_pass)
+            text = message.as_string()
+            session.sendmail(sender_address, receiver_address, text)
+            session.quit()
 
 
 if __name__ == "__main__":
