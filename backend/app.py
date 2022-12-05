@@ -36,6 +36,12 @@ class LRUCache:
 	    self.cache.move_to_end(key)
 	    return self.cache[key]
 
+        def put(self, key, value):
+		self.cache[key] = value
+		self.cache.move_to_end(key)
+		if len(self.cache) > self.capacity:
+			self.cache.popitem(last = False)
+
 @app.route("/register", methods=["post"])
 def register():
     try:
