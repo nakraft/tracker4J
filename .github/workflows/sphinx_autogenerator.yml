@@ -17,7 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build documentation and commit
       run: |
-          echo git branch | grep "*"
           cd docs/
           sudo apt-get install python3-sphinx
           sudo rm backend.rst
