@@ -400,6 +400,8 @@ def send_reminders():
             session.sendmail(sender_address, receiver_address, text)
             session.quit()
 
+        except Exception as e: 
+            print("Failed to send a reminder, the err: ", e)
 
 if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
