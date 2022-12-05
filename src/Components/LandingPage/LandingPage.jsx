@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { format } from 'date-fns'
-import moment from 'moment';
+// import { format } from 'date-fns'
+// import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';
@@ -57,14 +57,14 @@ export default function LandingPage() {
 
 	useEffect(() => {
 		updateApplications();
-	}, [sort, filter]);
+	}, [sort, filter, page]);
 
 	const updateApplications = () => {
 		axios
 			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter + "&page=" + page)
 			.then(({ data }) => {
 				setApplications(data.applications)
-				if (data.end) setNext(true)
+				if (!data.applications) setNext(true)
 				else setNext(false)
 				if (page == 1) setPrev(true)
 				else setPrev(false)
