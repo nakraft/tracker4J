@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography, Dropdown, Select } from 'antd';
-import { EditFilled, PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
+import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { format } from 'date-fns'
+import moment from 'moment';
 import { useLocation } from 'react-router-dom';
+
 import AddApplication from '../AddApplication/AddApplication';
 import EditApplication from '../AddApplication/EditApplication';
-import './LandingPage.scss'
-import Popup from 'reactjs-popup';
-
-// import item_details from '../../../.,/backend/app.py';
-
+import Reminder from '../Reminder/Reminder';
+import './LandingPage.scss';
 
 const columns = {
-   applied: 'Applied',
-   inReview: 'In Review',
-   interview: 'Interview',
-   decision: 'Decision',
+	applied: 'Applied',
+	interview: 'Interview',
+	decision: 'Decision',
 };
 
 const sortingOptions = [
@@ -38,75 +37,58 @@ const sortingOptions = [
 ]
 
 export default function LandingPage() {
-   const [applications, setApplications] = useState([]);
-   const [testVariable, settestVariable] = useState([]);
-   const [loading, setLoading] = useState(true);
-   const [addApplicationOpen, setAddApplicationOpen] = useState(false);
-   const [editApplication, setEditApplication] = useState(false);
-   const { state } = useLocation();
-
-   useEffect(() => {
-      updateApplications();
-   }, []);
-
-   const updateApplications = (sort="name", asc=true) => {
-	axios
-		.get('/api/view_applications?email=' + state.email + '&sort=' + sort + "&asc=" + asc)
-		.then(({ data }) => setApplications(data.applications))
-		.catch((err) => console.log(err))
-		.finally(() => setLoading(false));
-	};
+	const [applications, setApplications] = useState([]);
+	const [filter, setFilter] = useState("");
+	const [sort, setSort] = useState("name_Asc");
+	const [loading, setLoading] = useState(true);
+	const [addApplicationOpen, setAddApplicationOpen] = useState(false);
+	const [editApplication, setEditApplication] = useState(false);
+	const [reminder, setReminder] = useState(true);
+	const { state } = useLocation();
 
 	useEffect(() => {
+		updateApplications();
+	}, [sort, filter]);
+
+	const updateApplications = () => {
 		axios
-		   .get('/api/test')
-		   .then(({ data }) => settestVariable(data))
-		   .catch((err) => message.error(err.response?.data?.error));
-	 }, []);
-	
+			.get('/api/view_applications?email=' + state.email + '&sort=' + sort.split("_")[0] + "&asc=" + (sort.split("_")[1] == "Asc") + "&filter=" + filter)
+			.then(({ data }) => setApplications(data.applications))
+			.catch((err) => console.log(err))
+			.finally(() => setLoading(false));
+	};
+
+	const handleChange = (value) => {
+		setSort(value)
+		updateApplications()
+	};
+
 	const toggleAddApplication = () => setAddApplicationOpen(!addApplicationOpen);
 
-	console.log(testVariable);
+	const onSearch = (string) => {
+		setFilter(string)
+	};
 
 	return (
 		<div className="LandingPage">
 			<div className="SubHeader">
+				<Input.Search
+					placeholder="search text"
+					allowClear
+					enterButton="Search"
+					size="large"
+      				style={{ width: 400 }}
+      				onSearch={onSearch}
+				/>
 				<div className="flex" />
-				<Popup trigger={<Button id="modal" > Reminders </Button>}
-            position="down" size="100px">
-            <div><b>Upcoming interviews</b></div>
-            {/* {
-               console.log(item_details.entries())
-            } */}
-               {testVariable.map(({companyName, date, jobTitle}) => {
-				<table>
-					<tr>
-					<th>
-						Company Name
-					</th>
-					<th>
-						Job title
-					</th>
-					<th>
-						Interview Date
-					</th>
-					</tr>
-				</table>
-                  return (
-					<tr>
-                    <td width="100px">{companyName}</td>
-					<td width="150px">{jobTitle}</td>
-					<td width="200px">{date}</td>
-                    </tr>
-                  );
-               }
-               )
-            }
-            <div>
-
-            </div>
-            </Popup>
-            &nbsp; &nbsp;
+				
+				<Select
+					defaultValue="Company Name Asc"
+					style={{ width: 220 }}
+					onChange={handleChange}
+					options={sortingOptions}
+					className="sortingDropdown"
+					/>
 				<Button
 					id="add-application"
 					type="primary"
@@ -123,83 +105,102 @@ export default function LandingPage() {
 				/>
 			</div>
 
-         <div className="MainContent">
-            {Object.keys(columns).map((col) => (
-               <div className="Status" key={col}>
-                  <Typography.Title level={5}>{columns[col]}</Typography.Title>
-                  {loading ? (
-                     <>
-                        <Card loading bordered={false} />
-                        <Card loading bordered={false} />
-                        <Card loading bordered={false} />
-                     </>
-                  ) : (
-                     applications.map(
-                        (application, index) =>
-                           (application.status === col ||
-                              (col === 'decision' &&
-                                 ['rejected', 'accepted'].includes(
-                                    application.status
-                                 ))) && (
-                              <Card
-                                 key={col + index}
-                                 title={application.companyName}
-                                 extra={
-                                    <Button
-                                       type="text"
-                                       icon={<EditFilled />}
-                                       onClick={() => setEditApplication(application)}
-                                       id={application.jobId + 'edit'}
-                                    />
-                                 }
-                                 className="Job"
-                                 bordered={false}
-                                 actions={
-                                    ['rejected', 'accepted'].includes(
-                                       application.status
-                                    ) && [
-                                       application.status === 'accepted' ? (
-                                          <Tag color="#87d068">Accepted</Tag>
-                                       ) : (
-                                          application.status === 'rejected' && (
-                                             <Tag color="#f50">Rejected</Tag>
-                                          )
-                                       ),
-                                    ]
-                                 }
-                              >
-                                 ID: {application.jobId}
-                                 <br />
-                                 Title: {application.jobTitle}
-                                 <br />
-                                 {'URL: '}
-                                 <a href={'//' + application.url} target={'_blank'}>
-                                    {application.url}
-                                 </a>
-                                 <br />
-                                 Notes: {application.description}
-                              </Card>
-                           )
-                     )
-                  )}
-                  {applications.length === 0 && 'No applications found.'}
-               </div>
-            ))}
-         </div>
-         {editApplication && (
-            <EditApplication
-               application={editApplication}
-               onClose={() => setEditApplication(false)}
-               updateApplications={updateApplications}
-               email={state.email}
-            />
-         )}
-
-         </div>
-
-      );
-
+			<div className="MainContent">
+				{Object.keys(columns).map((col) => (
+					<div className="Status" key={col}>
+						<Typography.Title level={5}>{columns[col]}</Typography.Title>
+						{loading ? (
+							<>
+								<Card loading bordered={false} />
+								<Card loading bordered={false} />
+								<Card loading bordered={false} />
+							</>
+						) : (
+							applications.map(
+								(application, index) =>
+									(application.status === col ||
+										(col === 'decision' &&
+											['rejected', 'accepted'].includes(
+												application.status
+											))) && (
+										<Card
+											key={col + index}
+											title={application.companyName}
+											extra={
+												<><Button
+													type="text"
+													icon={<EditFilled />}
+													onClick={() => setEditApplication(application)}
+													id={application.jobId + 'edit'} />
+													
+													{/* <Button
+														type="text"
+														icon={<ArrowRightOutlined />}
+														onClick={() => setNextStageApplication(application)}
+														id={application.jobId + 'next'} /> */}
+														
+													</>
+											}
+											className="Job"
+											bordered={false}
+											actions={
+												[
+												application.status === 'accepted' ? (
+													<Tag color="#87d068">Accepted</Tag>
+												) : (
+													application.status === 'rejected' && (
+														<Tag color="#f50">Rejected</Tag>
+													)
+												),
+												application.status === 'applied' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#FFA500" onClick={() => setNextStageApplication(application)}>Got the Interview?</Tag>
+													</div>
+												) : null,
+												application.status === 'interview' ? (
+													<div><Tag color="#FFB6C1" onClick={() => setContacts(application)}>Log Contact</Tag>
+														<Tag color="#A020F0" onClick={() => setOutcome(application)}>Change Outcome</Tag>
+													</div>
+												) : null,
+												]
+											}
+										>
+											ID: {application.jobId}
+											<br />
+											Title: {application.jobTitle}
+											<br />
+											<a href={'//' + application.url} target={'_blank'}>
+												{'URL to Job Posting'}
+											</a>
+											<br />
+											Notes: {application.description}
+											<br />
+											Upcoming Interview: {application.interview}
+											<br />
+											Action Needed By: {application.reminder}
+										</Card>
+									)
+							)
+						)}
+						{applications.length === 0 && 'No applications found.'}
+					</div>
+				))}
+			</div>
+			{editApplication && (
+				<EditApplication
+					application={editApplication}
+					onClose={() => setEditApplication(false)}
+					updateApplications={updateApplications}
+					email={state.email}
+				/>
+			)}
+			{reminder && (
+				<Reminder
+				application={reminder}
+				onClose={() => setReminder(false)}
+				email={state.email}
+				/>
+			)}
+		</div>
+	);
 }
-<script type="text/javascript">
-document.getElementById("modal").click();
-</script>
