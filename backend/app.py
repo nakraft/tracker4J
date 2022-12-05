@@ -377,7 +377,12 @@ def clear_profile():
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
-    current_date = datetime.now.strftime(%Y-%m-%d)  
+    current_date = datetime.now.strftime(%Y-%m-%d)      
+    records = Applications.find({"date":{"$regex":"^"+current_date}})
+    for record in records:
+
+
+
 
 if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
