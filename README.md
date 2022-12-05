@@ -205,7 +205,7 @@ This project is made possible by the incredible donation of time from NC State P
 
 ## Help 
 
-View some common issues users have identified in our [troubleshooting guide](). We list tips and tricks for identifying where the issue may be coming from. Issue reports may be linked to this guide if you identify a bug that is a software limitation. 
+View some common issues users have identified in our [troubleshooting guide](https://github.com/nakraft/tracker4J/blob/master/docs/troubleshooting_guide.md). We list tips and tricks for identifying where the issue may be coming from. Issue reports may be linked to this guide if you identify a bug that is a software limitation. 
 
 You can visit our website with full descriptions of our classes and methods by opening ```index.html``` within your file explorer. Included on the website is user profiles of people who should use the software and success stories!
   
