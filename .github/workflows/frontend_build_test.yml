@@ -26,6 +26,7 @@ jobs:
           flags: uitests # optional
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
+          token: 43da82bb-d4d6-46f6-82e8-6e3cf661d362
       - run: echo "Generating frontend docs."
       - uses: borales/actions-yarn@v3.0.0
         with:
