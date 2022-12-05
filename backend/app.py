@@ -19,6 +19,8 @@ UserRecords = db.register
 Applications = db.Applications
 UserProfiles = db.Profiles
 
+sender_address = 'sherbadcastled@gmail.com'
+sender_pass =  'cqiejirwlcowgmvc'
 
 @app.route("/register", methods=["post"])
 def register():
