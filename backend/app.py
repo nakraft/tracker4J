@@ -380,7 +380,8 @@ def send_reminders():
     current_date = datetime.now.strftime(%Y-%m-%d)      
     records = Applications.find({"date":{"$regex":"^"+current_date}})
     for record in records:
-
+        receiver_address = record['email']
+        message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
 
 
 
