@@ -14,9 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
     - uses: actions/checkout@v2
     - name: Build documentation and commit
       run: |
+          git checkout ${{ steps.extract_branch.outputs.branch }}
           cd docs/
           sudo apt-get install python3-sphinx
           sudo rm backend.rst
@@ -28,5 +33,5 @@ jobs:
           git config --global user.email "partha.25m@gmail.com"
           git add .
           git commit -m "Updated documentation" -a || true
-          git push
+          git push origin ${{ steps.extract_branch.outputs.branch }}
     # ===============================
