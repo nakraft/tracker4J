@@ -109,7 +109,12 @@ def view_applications():
             print(pageNumber)
             if(filterString is None) :
                 filterString = ""
-            out = Applications.find({"email": email}).sort(sort, asc)
+            outapp = [item for item in Applications.find({"email": email, 'status': 'applied'}).sort(sort, asc).skip(pageNumber*10).limit(10)]
+            outinr = [item for item in Applications.find({"email": email, 'status': 'inReview'}).sort(sort, asc).skip(pageNumber*10).limit(10)]
+            outdes = [item for item in Applications.find({"email": email, 'status': 'decision'}).sort(sort, asc).skip(pageNumber*10).limit(10)]
+            outint = [item for item in Applications.find({"email": email, 'status': 'interview'}).sort(sort, asc).skip(pageNumber*10).limit(10)]
+            out = outapp +  outinr + outdes + outint
+            #out = Applications.find({"email": email}).sort(sort, asc).skip(pageNumber*10).limit(10)
             if out:
                 
                 applications_list = []
