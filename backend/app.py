@@ -12,7 +12,7 @@ import statistics
 app = Flask(__name__)
 app.secret_key = "testing"
 
-client = MongoClient("mongodb+srv://se_test_user:se_test_user123@cluster0.npdziph.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
 #client2 = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
 #db2 = client2.get_database("Test")
 db = client.get_database("Test")
@@ -109,9 +109,32 @@ def view_applications():
             filterString = request.args.get("filter")
             if(filterString is None) :
                 filterString = ""
-            out = Applications.find({"email": email}).sort(sort, asc)
+            pageNumber = int(request.args.get("page")) - 1
+            print("email" + email)
+            outapp = Applications.find({"email": email, 'status': 'applied'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outappList = []
+            if outapp:
+                for i in outapp:
+                    outappList.append(i)
+
+            outinr = Applications.find({"email": email, 'status': 'inReview'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outinrList = []
+            if outinr:
+                for i in outinr:
+                    outinrList.append(i)
+
+            outdes = Applications.find({"email": email, 'status': 'decision'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outdesList = []
+            if outdes:
+                for i in outdes:
+                    outdesList.append(i)
+            outint = Applications.find({"email": email, 'status': 'interview'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outintList = []
+            if outint:
+                for i in outint:
+                    outintList.append(i)
+            out = outappList +  outinrList + outdesList + outintList
             if out:
-                
                 applications_list = []
                 # payload["msg"]="Applications present"
                 for i in out:
@@ -121,7 +144,7 @@ def view_applications():
                 filtered_applications_list = filterResults(applications_list, filterString)
                 return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             else:
-                return jsonify({'message': 'You have no applications'}), 200
+                return jsonify({'message': 'You have no applications', 'applications': []}), 200
         # else:
         #     return jsonify({'error': "Not Logged in"}), 400
             
