@@ -17,6 +17,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build documentation and commit
       run: |
+          echo git branch | grep "*"
           cd docs/
           sudo apt-get install python3-sphinx
           sudo rm backend.rst
@@ -24,8 +25,8 @@ jobs:
           sphinx-apidoc -o . ../backend/
           make html
           cd ..
-          git config --global user.name "gowtham-sathyan"
-          git config --global user.email "gowthamsathyan@gmail.com"
+          git config --global user.name "Parth-25m"
+          git config --global user.email "partha.25m@gmail.com"
           git add .
           git commit -m "Updated documentation" -a || true
           git push
