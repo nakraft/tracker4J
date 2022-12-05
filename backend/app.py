@@ -117,6 +117,15 @@ def view_applications():
                 for i in out:
                     del i['email']
                     i['_id']=str(i['_id'])
+                    try:
+                        i['reminder'] = i['reminder'].split('T')[0]
+                    except: 
+                        print("no reminders yet logged")
+                    try:
+                        i['interview'] = i['interview'].split('T')[0]
+                    except: 
+                        print("no interviews yet logged")
+
                     applications_list.append(i)
                 filtered_applications_list = filterResults(applications_list, filterString)
                 return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
