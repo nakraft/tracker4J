@@ -1,6 +1,6 @@
 # JobTrackr Application
 
-[![DOI](https://zenodo.org/badge/543812642.svg)](https://zenodo.org/badge/latestdoi/543812642)
+[![DOI](https://zenodo.org/badge/558546454.svg)](https://zenodo.org/badge/latestdoi/558546454)
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
 ![GitHub](https://img.shields.io/badge/Language-JavaScript-blue.svg)
 ![Yarn](https://img.shields.io/badge/Yarn-v1.22.19-green.svg)
@@ -8,20 +8,15 @@
 ![Node](https://img.shields.io/badge/node-v16.15.1-green.svg)
 ![Python](https://img.shields.io/badge/python-v3.8-green.svg)
 
-![Open issues](https://img.shields.io/github/issues-raw/ekanshsinghal/se-group26-proj1)
-![Closed issues](https://img.shields.io/github/issues-closed-raw/ekanshsinghal/se-group26-proj1?color=bright-green)
-[![frontend-build](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/frontend_build_test.yml/badge.svg?branch=main)](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/frontend_build_test.yml)
+![Open issues](https://img.shields.io/github/issues-raw/nakraft/tracker4J)
+![Closed issues](https://img.shields.io/github/issues-closed-raw/nakraft/tracker4J?color=bright-green)
+<!-- [![frontend-build](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/frontend_build_test.yml/badge.svg?branch=main)](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/frontend_build_test.yml)
 [![Backend-build](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_build.yml/badge.svg)](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_build.yml)
-[![Backend-Test](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_test.yml/badge.svg)](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_test.yml)
+[![Backend-Test](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_test.yml/badge.svg)](https://github.com/ekanshsinghal/se-group26-proj1/actions/workflows/backend_test.yml) -->
 
-<!-- ![Lines of code](https://img.shields.io/tokei/lines-raw/github.com/ekanshsinghal/se-group26-proj1) -->
-![Repo Size](https://img.shields.io/github/repo-size/ekanshsinghal/se-group26-proj1?color=brightgreen)
-[![GitHub Release](https://img.shields.io/github/release/ekanshsinghal/se-group26-proj1)](https://github.com/ekanshsinghal/se-group26-proj1/releases/)
-[![codecov](https://codecov.io/github/ekanshsinghal/se-group26-proj1/branch/main/graph/badge.svg?token=fHCWUMUXXr)](https://codecov.io/github/ekanshsinghal/se-group26-proj1)
-
-## Poster
-![Job Trackr X Large Poster-page-001](https://user-images.githubusercontent.com/30636208/197045427-8a170133-5468-42d4-a10e-2b9de0ada1fc.jpg)
-
+![Repo Size](https://img.shields.io/github/repo-size/nakraft/tracker4J?color=brightgreen)
+[![GitHub Release](https://img.shields.io/github/release/nakraft/tracker4J)](https://github.com/nakraft/tracker4J/releases/)
+[![codecov](https://codecov.io/github/nakraft/tracker4J/branch/main/graph/badge.svg?token=fHCWUMUXXr)](https://codecov.io/github/nakraft/tracker4J)
 
 ## Goal
 
@@ -37,7 +32,6 @@ Excel sheets that are complex and disorganized must go! Every job-related data c
 
 https://user-images.githubusercontent.com/30636208/194798331-9338219d-cdbd-4ff1-96fa-b1425dfc9504.mp4
 
-
 ## Built using
 
 <p align="center">
@@ -46,10 +40,10 @@ https://user-images.githubusercontent.com/30636208/194798331-9338219d-cdbd-4ff1-
 
 
 ## Basic Design
-![image](https://github.com/ekanshsinghal/se-group26-proj1/blob/main/resources/Design.png)
+![image](https://github.com/nakraft/tracker4J/blob/main/resources/Design.png)
 
 ## Roadmap
-![image](https://github.com/ekanshsinghal/se-group26-proj1/blob/main/resources/Features.png)
+![image](https://github.com/nakraft/tracker4J/blob/main/resources/Features.png)
 
 
 ## Application Demo
@@ -105,13 +99,13 @@ Note: This repository is configured with [Dart-sass](https://github.com/sass/dar
 1. Clone the repository
 
 ```
-git clone https://github.com/ekanshsinghal/se-group26-proj1.git
+git clone https://github.com/nakraft/tracker4J.git
 ```
 
 2. Install NPM dependencies
 
 ```
-cd se-group26-proj1
+cd tracker4J
 yarn
 ```
 
@@ -120,7 +114,7 @@ yarn
 
 Open a new terminal inside the backend directory.
 
-`cd se-group26-proj1\backend`
+`cd tracker4J\backend`
 
 
 Create a virtual environment called `venv`
@@ -178,14 +172,19 @@ It bundles React in production mode and optimizes the build for the best perform
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
+### Use 
 
-### Backend Test
+Setup and installation instructions can be found in the [user-friendly install guide](INSTALL.md)
+
+### Testing / Coverage
 
 Run this command to test the backend APIs
 
 ```
 python backend\tests.py
 ```
+
+Visit our [results page](/docs/results.md) for more information regarding running our test and code coverage scripts. 
 
 ## Tools
 
@@ -196,16 +195,22 @@ python backend\tests.py
 
 -   [MongoDB Cloud](https://www.mongodb.com/)
 
-## Contributors 👨‍🏭
+## Contributing
 
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/rahulrk2303"><img src="https://avatars.githubusercontent.com/u/30636208?v=4" width="100px;" alt=""/><br /><sub><b>Rahul Rangarajan Kannan</b></sub></a></td>
-    <td align="center"><a href="https://github.com/ekanshsinghal"><img src="https://avatars.githubusercontent.com/u/15945880?v=4" width="100px;" alt=""/><br /><sub><b>Ekansh Singhal</b></sub></a></td>
-    <td align="center"><a href="https://github.com/gowtham-sathyan"><img src="https://avatars.githubusercontent.com/u/37440294?v=4" width="100px;" alt=""/><br /><sub><b>Gowtham Sathyan</b></sub></a></td>
-    <td align="center"><a href="https://github.com/sbkrishna123"><img src="https://avatars.githubusercontent.com/u/89660642?v=4" width="100px;" alt=""/><br /><sub><b>Supriya Krishna</b></sub></a></td>
-  </tr>
-</table>
+Are you interested in contributing to this project? Visit [our contribution](CONTRIBUTING.md) documentation for details. 
+  
+Need some ideas on what has been done? Jump on over to our [development project board](https://github.com/users/nakraft/projects/2/views/1) for specific issues we are tracking and log which areas you are planning to help out on. 
+
+This project is made possible by the incredible donation of time from NC State Project Contributors and the advice/support of CSC 510 teaching staff. NC State University has made the resources for this project possible, and will continue to support CSC 510 projects for the forseeable future. 
+
+## Help 
+
+View some common issues users have identified in our [troubleshooting guide](). We list tips and tricks for identifying where the issue may be coming from. Issue reports may be linked to this guide if you identify a bug that is a software limitation. 
+
+You can visit our website with full descriptions of our classes and methods by opening ```index.html``` within your file explorer. Included on the website is user profiles of people who should use the software and success stories!
+  
+Need more support? Our primary method for addressing bugs and feature requests should be through submitting an issue ticket in the "Issues" tab. If you need additional support, please reach out to our development email develop.nak@gmail.com and a member of the team will be in contact with you shortly. You can also email the development email to asked to be added to our subsriber list for updates regarding the project's development.
+
 
 ## License
 
