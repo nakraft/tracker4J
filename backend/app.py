@@ -381,10 +381,19 @@ def send_reminders():
     records = Applications.find({"date":{"$regex":"^"+current_date}})
     for record in records:
         receiver_address = record['email']
+       
+        message = MIMEMultipart()
+
         message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
         mail_content = 'Hello,
         This is a reminder email about your interview for the role '+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
+       
+        message['From'] = sender_address
+        message['To'] = receiver_address
+
         
+
+      
 
 
 if __name__ == "__main__":
