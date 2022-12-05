@@ -25,6 +25,9 @@ sender_pass =  'cqiejirwlcowgmvc'
 
 class LRUCache:
     def __init__(self, capacity):
+        self.cache = OrderedDict()
+	self.capacity = capacity
+
 
     def get(self, key):
 
