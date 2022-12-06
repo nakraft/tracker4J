@@ -22,8 +22,8 @@ jobs:
           mkdir docs
           cd docs/
           sudo apt-get install python3-sphinx
-          sudo rm backend.rst
-          sudo rm modules.rst
+          sudo rm backend.rst || true
+          sudo rm modules.rst || true
           sphinx-apidoc -o . ../backend/
           make html
           cd ..
