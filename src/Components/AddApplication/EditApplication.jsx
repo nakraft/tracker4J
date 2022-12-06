@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const statuses = {
 	applied: 'Applied',
-	inReview: 'In Review',
 	interview: 'Interview',
 	rejected: 'Rejected',
 	accepted: 'Accepted',
@@ -51,6 +50,7 @@ export default function EditApplication({ application, onClose, updateApplicatio
 	};
 
 	return (
+		<div>
 		<Modal
 			title="Edit Application"
 			open={true}
@@ -168,5 +168,6 @@ export default function EditApplication({ application, onClose, updateApplicatio
 				</Form.Item>
 			</Form>
 		</Modal>
+		</div>
 	);
 }

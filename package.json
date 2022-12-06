@@ -1,5 +1,5 @@
 {
-	"name": "se-group26-proj1",
+	"name": "tracker4j",
 	"version": "1.0.0",
 	"scripts": {
 		"start": "webpack serve --mode development --hot",
@@ -7,7 +7,7 @@
 		"test": "jest --coverage",
 		"generate-docs": "react-docgen src/Components --pretty -e index.jsx -o docs/frontend-docs.json"
 	},
-	"repository": "https://github.com/ekanshsinghal/se-group26-proj1.git",
+	"repository": "https://github.com/nakraft/tracker4J.git",
 	"author": "Ekansh Singhal <ekanshsinghal@icloud.com>",
 	"license": "MIT",
 	"dependencies": {
