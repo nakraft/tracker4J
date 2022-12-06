@@ -4,7 +4,7 @@ Run ```npm run test``` in the command line to run the tests under the test folde
 
 Test results: 
 
-<img src="/docs/documentation_photos/test_results.png" alt="drawing" width="400" /> 
+<img src="/docs/510.png" alt="drawing" width="400" /> 
 
 ### Code Coverage 
 
