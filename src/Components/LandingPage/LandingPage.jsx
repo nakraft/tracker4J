@@ -118,8 +118,9 @@ export default function LandingPage() {
 					size="large"
       				style={{ width: 400 }}
       				onSearch={onSearch}
+				id="search-bar"
 				/>
-				<Button onClick={openUpcomingInterviewModal}>Upcoming interviews</Button>
+				<Button onClick={openUpcomingInterviewModal} id="upcoming-interviews">Upcoming interviews</Button>
 				<div className="flex" />
 				
 				<Select
@@ -128,6 +129,7 @@ export default function LandingPage() {
 					onChange={handleChange}
 					options={sortingOptions}
 					className="sortingDropdown"
+					id="sort-button"
 					/>
 				<Button
 					id="add-application"
