@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Tag, Typography, Dropdown, Select, Input } from 'antd';
+import { Button, Card, Tag, Typography, Dropdown, Select, Input, Modal } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
 // import { format } from 'date-fns'
@@ -54,10 +54,24 @@ export default function LandingPage() {
 	const [chooseAction, setNextAction] = useState(false);
 	const [changeOutcome, setOutcome] = useState(false);
 	const { state } = useLocation();
+	const [interviewModel, setInterviewModel] = useState(false)
+	const [upcomingInterviews, setUpcomingInterviews] = useState([])
 
 	useEffect(() => {
 		updateApplications();
+		fetchUpcomingInterviews();
 	}, [sort, filter, page]);
+
+	// useEffect(() => {
+		
+	// }, [])
+	
+	const fetchUpcomingInterviews = () => {
+		axios.get('/api/interviews?email=' + state.email).then(({ data }) => {
+			console.log(data)
+			setUpcomingInterviews(data)
+		})
+	}
 
 	const updateApplications = () => {
 		axios
@@ -92,6 +106,14 @@ export default function LandingPage() {
 		setPage(page+1)
 	}
 
+	const closeUpcomingInterviewModal = () => {
+		setInterviewModel(false)
+	}
+
+	const openUpcomingInterviewModal = () => {
+		setInterviewModel(true)
+	}
+
 	return (
 		<div className="LandingPage">
 			<div className="SubHeader">
@@ -103,6 +125,7 @@ export default function LandingPage() {
       				style={{ width: 400 }}
       				onSearch={onSearch}
 				/>
+				<Button onClick={openUpcomingInterviewModal}>Upcoming interviews</Button>
 				<div className="flex" />
 				
 				<Select
@@ -252,6 +275,21 @@ export default function LandingPage() {
 					updateApplications={updateApplications}
 					email={state.email}
 				/>
+			)}
+			{interviewModel && (
+				<Modal open={true} title="Upcoming interviews" onOk={closeUpcomingInterviewModal} onCancel={closeUpcomingInterviewModal} onClose={closeUpcomingInterviewModal}>
+					{upcomingInterviews.map(({ companyName, date, jobTitle }, index) => {
+						return (
+							<div key={index}>
+								<div> Company: {companyName}</div>
+								<div>Date: {date.slice(0,11)}</div>
+								<div>Job: {jobTitle}</div>
+								<hr/>
+							</div>
+
+						)
+					}) }
+				</Modal>
 			)}
 		</div>
 	);
