@@ -628,6 +628,22 @@ def clear_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+    @app.route("/interviews", methods=["get"])
+def interviews() :
+    try:
+        if request:
+            email = request.args.get("email")
+            today = str(datetime.today()).split()[0]
+            query = {"email": email, "interview": {"$gte": today}}
+            projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+            item_details = Applications.find(query,projection)
+            if item_details == None:
+                return jsonify({"error": "No such Job ID found for this user's email"})
+            else: 
+                return jsonify(list(item_details))
+    except Exception as e:
+        print(e)
+        return jsonify({'error': "Something went wrong"}), 400
 
 if __name__ == "__main__":
   app.run(debug=True, host="0.0.0.0", port=8000)
