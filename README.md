@@ -1,4 +1,4 @@
-# JobTrackr Application
+# JobTracker Application
 
 [![DOI](https://zenodo.org/badge/558546454.svg)](https://zenodo.org/badge/latestdoi/558546454)
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
