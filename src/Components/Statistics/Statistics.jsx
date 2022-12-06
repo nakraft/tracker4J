@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, DatePicker, Form, Input, message, Skeleton, Typography } from 'antd';
 import { useLocation } from 'react-router-dom';
-import Plot from 'react-plotly.js';
+// import Plot from 'react-plotly.js';
 import axios from 'axios';
 
 import './Statistics.scss';
@@ -29,15 +29,18 @@ export default function Statistics() {
 			.finally(() => setloading(false));
 	}, []);
 
-	return (
-        <div>
-            <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
-                <Plot data={indicators.data} layout={indicators.layout}/>
-            </div>
-            <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
-                <Plot data={plot.data} layout={plot.layout}/>
-            </div>
-        </div>
+	// return (
+    //     <div>
+    //         <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
+    //             <Plot data={indicators.data} layout={indicators.layout}/>
+    //         </div>
+    //         <div className="statistics_page" style={{ display: 'flex', justifyContent: 'center'}}>
+    //             <Plot data={plot.data} layout={plot.layout}/>
+    //         </div>
+    //     </div>
 
-	);
+	// );
+	return (
+		<div></div>
+	)
 }
