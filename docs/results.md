@@ -8,8 +8,8 @@ Test results:
 
 ### Code Coverage 
 
-Run ```npm run coverage``` in the command line to check code coverage
+Click the coverage button on our readme to view the coverage report!
 
 Coverage results: 
 
-<img src="/docs/documentation_photos/coverage_results.png" alt="drawing" width="750" /> 
+<img src="/docs/documentation_photos/coverage.png" alt="drawing" width="750" /> 
