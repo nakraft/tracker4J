@@ -124,17 +124,24 @@ def view_applications():
                 for i in outinr:
                     outinrList.append(i)
 
-            outdes = Applications.find({"email": email, 'status': 'decision'}).sort(sort, asc).skip(pageNumber*5).limit(5)
-            outdesList = []
-            if outdes:
-                for i in outdes:
-                    outdesList.append(i)
+            outacc = Applications.find({"email": email, 'status': 'accepted'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outaccList = []
+            if outacc:
+                for i in outacc:
+                    outaccList.append(i)
+
+            outrej = Applications.find({"email": email, 'status': 'rejected'}).sort(sort, asc).skip(pageNumber*5).limit(5)
+            outrejList = []
+            if outrej:
+                for i in outrej:
+                    outrejList.append(i)
+
             outint = Applications.find({"email": email, 'status': 'interview'}).sort(sort, asc).skip(pageNumber*5).limit(5)
             outintList = []
             if outint:
                 for i in outint:
                     outintList.append(i)
-            out = outappList +  outinrList + outdesList + outintList
+            out = outappList +  outinrList + outaccList + outintList + outrejList
             if out:
                 applications_list = []
                 # payload["msg"]="Applications present"
