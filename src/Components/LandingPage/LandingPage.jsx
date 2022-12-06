@@ -12,6 +12,10 @@ import ChooseAction from '../AddApplication/ChooseAction';
 import ChangeOutcome from '../AddApplication/ChangeOutcome';
 import './LandingPage.scss';
 
+
+// const clmns = {
+// applied, int, deci
+// };
 const columns = {
 	applied: 'Applied',
 	interview: 'Interview',
