@@ -387,7 +387,7 @@ def next_stage_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
+# Route for adding career fair
 @app.route("/add_career_fair", methods=["POST"])
 def add_career_fair():
     try:
@@ -422,6 +422,7 @@ def add_career_fair():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for viewing career fairs
 @app.route("/view_careerfairs", methods=["GET"])
 def view_careerfairs():
     try:
@@ -450,7 +451,7 @@ def view_careerfairs():
         #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
+# Route for creating profile
 @app.route("/create_profile", methods=["post"])
 def create_profile():
     try:
