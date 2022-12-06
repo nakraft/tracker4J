@@ -317,6 +317,7 @@ def add_contact_details():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for modifying an application
 @app.route("/modify_application", methods=["POST"])
 def modify_application():
     try:
@@ -352,6 +353,7 @@ def modify_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for moving the application to the next stage
 @app.route("/next_stage_application", methods=["POST"])
 def next_stage_application():
     try:
