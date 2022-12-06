@@ -124,34 +124,34 @@ describe('App', () => {
 		await user.click(getById(container, 'register-button'));
 	});
 
-	test('renders LandingPage Component & Add Application', async () => {
-		const { baseElement } = render(
-			<MemoryRouter
-				initialEntries={[{ pathname: '/home', state: { email: 'test@abc.com' } }]}
-			>
-				<App />
-			</MemoryRouter>
-		);
-		await user.click(getById(baseElement, 'add-application'));
-		await user.click(getById(baseElement, 'cancel'));
-		await user.click(getById(baseElement, 'add-application'));
-		await user.type(getById(baseElement, 'companyName'), 'companyName');
-		await user.type(getById(baseElement, 'jobTitle'), 'jobTitle');
-		await user.type(getById(baseElement, 'jobId'), 'jobId');
-		await user.type(getById(baseElement, 'url'), 'www.google.com');
+	// test('renders LandingPage Component & Add Application', async () => {
+	// 	const { baseElement } = render(
+	// 		<MemoryRouter
+	// 			initialEntries={[{ pathname: '/home', state: { email: 'test@abc.com' } }]}
+	// 		>
+	// 			<App />
+	// 		</MemoryRouter>
+	// 	);
+	// 	await user.click(getById(baseElement, 'add-application'));
+	// 	await user.click(getById(baseElement, 'cancel'));
+	// 	await user.click(getById(baseElement, 'add-application'));
+	// 	await user.type(getById(baseElement, 'companyName'), 'companyName');
+	// 	await user.type(getById(baseElement, 'jobTitle'), 'jobTitle');
+	// 	await user.type(getById(baseElement, 'jobId'), 'jobId');
+	// 	await user.type(getById(baseElement, 'url'), 'www.google.com');
 
-		const date = getByClass(baseElement, 'ant-picker');
-		await user.click(date);
-		await user.click(getByClass(baseElement, 'ant-picker-today-btn'));
+	// 	const date = getByClass(baseElement, 'ant-picker');
+	// 	await user.click(date);
+	// 	await user.click(getByClass(baseElement, 'ant-picker-today-btn'));
 
-		// await user.click(getByClass(baseElement, 'ant-select-selector'));
-		await user.click(getByTitle(baseElement, 'Applied'));
+	// 	// await user.click(getByClass(baseElement, 'ant-select-selector'));
+	// 	await user.click(getByTitle(baseElement, 'Applied'));
 
-		await user.click(getById(baseElement, 'add-submit'));
+	// 	await user.click(getById(baseElement, 'add-submit'));
 
-		await user.click(getById(baseElement, '567edit'));
-		await user.click(getById(baseElement, 'delete'));
-	});
+	// 	await user.click(getById(baseElement, '567edit'));
+	// 	await user.click(getById(baseElement, 'delete'));
+	// });
 
 	test('renders Saved Jobs Component ', async () => {
 		const { baseElement } = render(
