@@ -265,6 +265,7 @@ def delete_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for changing the status of an application
 @app.route("/change_status", methods=["POST"])
 def change_status():
     try:
@@ -289,6 +290,8 @@ def change_status():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+
+# Route for adding the contact details of a user
 @app.route("/add_contact_details", methods=["POST"])
 def add_contact_details():
     try:
