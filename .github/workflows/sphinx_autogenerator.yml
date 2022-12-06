@@ -1,0 +1,35 @@
+name: sphinx-autogenerator
+
+on:
+  push:
+    branches: 
+      - main
+  pull_request:
+    branches: 
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build documentation and commit
+      run: |
+          git checkout -b temp_doc_dev
+          rm -rf ./docs
+          mkdir docs
+          cd docs/
+          sudo apt-get install python3-sphinx
+          sudo rm backend.rst
+          sudo rm modules.rst
+          sphinx-apidoc -o . ../backend/
+          make html
+          cd ..
+          git config --global user.name "Parth-25m"
+          git config --global user.email "partha.25m@gmail.com"
+          git add .
+          git commit -m "Updated documentation" -a || true
+          git push
+    # ===============================
