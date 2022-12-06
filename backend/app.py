@@ -99,6 +99,7 @@ def filterResults(applications, filter):
             filteredApplications.append(application)
     return filteredApplications
 
+# Route for viewing applications
 @app.route("/view_applications", methods=["GET"])
 def view_applications():
     try:
@@ -170,6 +171,7 @@ def view_applications():
         #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for adding application
 @app.route("/add_application", methods=["POST"])
 def add_application():
     try:
@@ -207,6 +209,7 @@ def add_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# Route for deleting an application
 @app.route("/delete_application", methods=["POST"])
 def delete_application():
     try:
