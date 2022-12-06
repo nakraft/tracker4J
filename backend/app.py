@@ -6,23 +6,52 @@ from pymongo import MongoClient, ReturnDocument
 import bcrypt
 import base64
 from urllib.parse import urlparse, parse_qs
-
 import statistics
-
+from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from collections import OrderedDict
 
 app = Flask(__name__)
 app.secret_key = "testing"
 
 client = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
+
 #client2 = MongoClient("mongodb+srv://csc505:csc505@cluster0.xflayld.mongodb.net/?retryWrites=true&w=majority")
 #db2 = client2.get_database("Test")
+
 db = client.get_database("Test")
 UserRecords = db.register
 Applications = db.Applications
 CareerFair = db.CareerFair
 UserProfiles = db.Profiles
 
+
 # Route for registering new users
+
+sender_address = 'develop.nak@gmail.com'
+sender_pass =  'eyujkirliswosoag'
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.cache = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key):
+        if key not in self.cache:
+            return -1
+        else:
+            self.cache.move_to_end(key)
+            return self.cache[key]
+
+    def put(self, key, value):
+        self.cache[key] = value
+        self.cache.move_to_end(key)
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last = False)
+
 @app.route("/register", methods=["post"])
 def register():
     try:
@@ -105,6 +134,9 @@ def view_applications():
     try:
         # if "email" in session:
         if request:
+            filtered_applications_list = lcache.get(str(request))
+            if filtered_applications_list != -1:
+                return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             # email = session["email"]
             email = request.args.get("email")
             sort = request.args.get("sort")
@@ -161,6 +193,7 @@ def view_applications():
 
                     applications_list.append(i)
                 filtered_applications_list = filterResults(applications_list, filterString)
+                lcache.put(str(request), filtered_applications_list)
                 return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications', 'applications': []}), 200
@@ -178,6 +211,7 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            print(request.args)
             try:
                 description = req["description"]
             except:
@@ -640,6 +674,7 @@ def clear_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+
 @app.route("/interviews", methods=["get"])
 def interviews() :
     try:
@@ -657,5 +692,37 @@ def interviews() :
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+def send_reminders():
+    current_date = datetime.now.strftime("%Y-%m-%d")      
+    records = Applications.find({"date":{"$regex":"^"+current_date}})
+    for record in records:
+        receiver_address = record['email']
+       
+        message = MIMEMultipart()
+
+        message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
+        mail_content = '''Hello,
+        This is a reminder email about your interview for the role '''+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
+       
+        message['From'] = sender_address
+        message['To'] = receiver_address
+
+        message.attach(MIMEText(mail_content, 'plain'))
+
+        try:
+            session = smtplib.SMTP('smtp.gmail.com', 587)
+            session.login(sender_address, sender_pass)
+            text = message.as_string()
+            session.sendmail(sender_address, receiver_address, text)
+            session.quit()
+
+        except Exception as e: 
+            print("Failed to send a reminder, the err: ", e)
+
+
 if __name__ == "__main__":
-  app.run(debug=True, host="0.0.0.0", port=8000)
+  sched = BackgroundScheduler(daemon=True)
+  sched.add_job(send_reminders, 'cron', day='*', hour='5')
+  sched.start()
+  lcache = LRUCache(100)
+  app.run(debug=True, host="0.0.0.0", port=8000, threaded=True)
