@@ -16,7 +16,7 @@
 
 ![Repo Size](https://img.shields.io/github/repo-size/nakraft/tracker4J?color=brightgreen)
 [![GitHub Release](https://img.shields.io/github/release/nakraft/tracker4J)](https://github.com/nakraft/tracker4J/releases/)
-[![codecov](https://codecov.io/github/nakraft/tracker4J/branch/main/graph/badge.svg?token=fHCWUMUXXr)](https://codecov.io/github/nakraft/tracker4J)
+[![codecov](https://codecov.io/gh/nakraft/tracker4J/branch/master/graph/badge.svg?token=A6c0vrGL1s)](https://codecov.io/gh/nakraft/tracker4J)
 
 ## Goal
 
