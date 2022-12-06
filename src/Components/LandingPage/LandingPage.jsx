@@ -61,10 +61,6 @@ export default function LandingPage() {
 		updateApplications();
 		fetchUpcomingInterviews();
 	}, [sort, filter, page]);
-
-	// useEffect(() => {
-		
-	// }, [])
 	
 	const fetchUpcomingInterviews = () => {
 		axios.get('/api/interviews?email=' + state.email).then(({ data }) => {
@@ -178,12 +174,6 @@ export default function LandingPage() {
 													icon={<EditFilled />}
 													onClick={() => setEditApplication(application)}
 													id={application.jobId + 'edit'} />
-													
-													{/* <Button
-														type="text"
-														icon={<ArrowRightOutlined />}
-														onClick={() => setNextStageApplication(application)}
-														id={application.jobId + 'next'} /> */}
 														
 													</>
 											}
