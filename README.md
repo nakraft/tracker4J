@@ -26,7 +26,7 @@ Your personalized JobTracker application in one place!
 
 Excel sheets that are complex and disorganized must go! Every job-related data can be managed by our JobTrackr Application, including your job profile, applications, status, important dates, notes, saved applications, job descriptions, recruiter details, compensation and offer package, and more.
 
-## User Workflows
+## NEW User Workflows (what a significant improvement from v1!)
 
 Our __NEW functionalities__ include: 
 
@@ -52,30 +52,9 @@ https://user-images.githubusercontent.com/30636208/194798331-9338219d-cdbd-4ff1-
 <img src="https://user-images.githubusercontent.com/30636208/194690148-8e3dbe93-2ede-4da8-a44a-e4ee165b6b3b.png" width="150"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="150"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" width="150"> <img src="https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg" width ="150"/> <img src="https://camo.githubusercontent.com/36ecb78d148678488fa43e5916e131906c15ea485b30232739d5633b2e0ce18c/68747470733a2f2f6b6576696e2d62726f776e2e636f6d2f696d616765732f666c61736b2d6c6f676f2e737667" width ="150"/> 
 </p>
 
-
-## Basic Design
-![image](https://github.com/nakraft/tracker4J/blob/main/resources/Design.png)
-
-## Roadmap
-![image](https://github.com/nakraft/tracker4J/blob/main/resources/Features.png)
-
-
 ## Application Demo
 
 https://user-images.githubusercontent.com/30636208/194689139-29cdb217-a9e1-4fea-977d-74cbeb6d6799.mp4
-
-
-## Built With
-
--   `react 18.2.x`
--   `babel 7.19.x`
--   `webpack cli 4.x`
--   `sass` (Dart Sass)
--   `Python 3.8+`
--   `Flask`
--   `MongoDB`
-
-Note: This repository is configured with [Dart-sass](https://github.com/sass/dart-sass) and not [Node Sass].
 
 ### Use 
 
@@ -96,7 +75,20 @@ Visit our [results page](/docs/results.md) for more information regarding runnin
 -   Preetier Code Formatter
 -   PyLint with Flake8
 
-## Third-Party Tools
+### Built With
+
+-   `react 18.2.x`
+-   `babel 7.19.x`
+-   `webpack cli 4.x`
+-   `sass` (Dart Sass)
+-   `Python 3.8+`
+-   `Flask`
+-   `MongoDB`
+
+Note: This repository is configured with [Dart-sass](https://github.com/sass/dart-sass) and not [Node Sass].
+
+
+### Third-Party Tools
 
 -   [MongoDB Cloud](https://www.mongodb.com/)
 
