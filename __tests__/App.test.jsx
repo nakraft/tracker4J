@@ -171,6 +171,20 @@ describe('App', () => {
 		await user.click(getById(baseElement, 'cancel'));
 	});
 
+    test('renders upcoming interviews', async () => {
+		const { baseElement } = render(
+			<MemoryRouter
+				initialEntries={[{ pathname: '/home', state: { email: 'j@j.com' } }]}
+			>
+				<App />
+			</MemoryRouter>
+		);
+		
+		// await user.click(querySelector(baseElement, '#search-bar'));
+        await user.type(getById(baseElement, 'search-bar'), 'goog');
+
+	});
+
 	test('renders Recommended Jobs Component ', async () => {
 		const { container } = render(
 			<MemoryRouter

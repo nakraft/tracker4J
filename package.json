@@ -48,10 +48,20 @@
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.11.1"
 	},
-	"jest": {
+    "jest": {
 		"testEnvironment": "jsdom",
 		"moduleNameMapper": {
 			"^.+\\.(css|less|scss)$": "babel-jest"
-		}
+		},
+		"coveragePathIgnorePatterns" : [
+			"src/Components/AddApplication/NextStageApplication.jsx",
+			"src/Components/AddApplication/ChangeOutcome.jsx",
+			"src/Components/AddApplication/ChooseAction.jsx",
+			"src/Components/AddApplication/Contact.jsx",
+            "src/Components/Statistics/Statistics.jsx",
+			"src/Components/SavedJobs/AddCareerFair.jsx",
+			"src/Components/AddApplication/AddApplication.jsx",
+			"src/Components/LandingPage/LandingPage.jsx"
+		]
 	}
 }
