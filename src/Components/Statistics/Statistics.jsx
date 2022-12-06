@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, DatePicker, Form, Input, message, Skeleton, Typography } from 'antd';
 import { useLocation } from 'react-router-dom';
-import Plot from 'react-plotly.js';
+import Plot from 'react-plotlyjs';
 import axios from 'axios';
 
 import './Statistics.scss';
@@ -40,4 +40,4 @@ export default function Statistics() {
             </div>
         </div>
 	);
-}
+	}

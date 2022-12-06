@@ -136,9 +136,9 @@ def view_applications():
         '''Gets current user inputs'''
         '''if "email" in session:'''
         if request:
-            filtered_applications_list = lcache.get(str(request))
-            if filtered_applications_list != -1:
-                return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
+            # filtered_applications_list = lcache.get(str(request))
+            # if filtered_applications_list != -1:
+            #     return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             # email = session["email"]
             email = request.args.get("email")
             sort = request.args.get("sort")
@@ -195,7 +195,7 @@ def view_applications():
 
                     applications_list.append(i)
                 filtered_applications_list = filterResults(applications_list, filterString)
-                lcache.put(str(request), filtered_applications_list)
+                # lcache.put(str(request), filtered_applications_list)
                 return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications', 'applications': []}), 200
@@ -746,5 +746,5 @@ if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
   sched.add_job(send_reminders, 'cron', day='*', hour='5')
   sched.start()
-  lcache = LRUCache(100)
+#   lcache = LRUCache(100)
   app.run(debug=True, host="0.0.0.0", port=8000, threaded=True)
