@@ -56,6 +56,7 @@ class LRUCache:
 def register():
     try:
         req = request.get_json()
+        logging(req)
         name = {"firstName": req["firstName"], "lastName": req["lastName"]}
         email = req["email"]
         passwordBase64 = req["password"]
@@ -91,6 +92,7 @@ def register():
 def login():
     try:
         req = request.get_json()
+        logging(req)
         email = req["email"]
         passwordBase64 = req["password"]
         password = base64.b64decode(passwordBase64).decode('utf-8')
@@ -134,9 +136,9 @@ def view_applications():
     try:
         # if "email" in session:
         if request:
-            filtered_applications_list = lcache.get(str(request))
-            if filtered_applications_list != -1:
-                return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
+            # filtered_applications_list = lcache.get(str(request))
+            # if filtered_applications_list != -1:
+            #     return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             # email = session["email"]
             email = request.args.get("email")
             sort = request.args.get("sort")
@@ -193,7 +195,7 @@ def view_applications():
 
                     applications_list.append(i)
                 filtered_applications_list = filterResults(applications_list, filterString)
-                lcache.put(str(request), filtered_applications_list)
+                # lcache.put(str(request), filtered_applications_list)
                 return jsonify({'message': 'Applications found', 'applications': filtered_applications_list}), 200
             else:
                 return jsonify({'message': 'You have no applications', 'applications': []}), 200
@@ -211,6 +213,7 @@ def add_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             print(request.args)
             try:
                 description = req["description"]
@@ -250,6 +253,7 @@ def delete_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             email = req["email"]
             _id = req["_id"]
             # delete_document = Applications.find_one_and_delete({"_id":jobId, "email":email})
@@ -271,6 +275,7 @@ def change_status():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             email = req["email"]
             _id = req["_id"]
             filter = {'_id':ObjectId(_id), "email": email}
@@ -295,6 +300,7 @@ def add_contact_details():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             email = req["email"]
             _id = req["_id"]
             filter = {'_id':ObjectId(_id), "email": email}
@@ -320,6 +326,7 @@ def modify_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             print(req)
             email = req["email"]
             _id = req["_id"]
@@ -355,6 +362,7 @@ def next_stage_application():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             email = req["email"]
             _id = req["_id"]
             filter = {'_id':ObjectId(_id), "email": email}
@@ -389,6 +397,7 @@ def add_career_fair():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             try:
                 description = req["description"]
             except:
@@ -452,6 +461,7 @@ def create_profile():
         # if "email" in session:
         if request:
             req = request.get_json()
+            logging(req)
             email = req["email"]
             email_found = UserProfiles.find_one({"email": email})
             if email_found:
@@ -657,6 +667,7 @@ def clear_profile():
     try:
         if request:
             req = request.get_json()
+            logging(req)
             email_to_delete = req["email"]
             _id = req["_id"]
             delete_user = UserRecords.find_one({"email":email_to_delete})
@@ -693,8 +704,8 @@ def interviews() :
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
-    current_date = datetime.now.strftime("%Y-%m-%d")      
-    records = Applications.find({"date":{"$regex":"^"+current_date}})
+    current_date = datetime.now().strftime("%Y-%m-%d")      
+    records = Applications.find({"interview":{"$regex":"^"+current_date}})
     for record in records:
         receiver_address = record['email']
        
@@ -702,7 +713,7 @@ def send_reminders():
 
         message['Subject'] = 'This is a Reminder for your Interview at '+record['companyName'] 
         mail_content = '''Hello,
-        This is a reminder email about your interview for the role '''+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['date']
+        This is a reminder email about your interview for the role '''+record["jobTitle"]+' at '+record['companyName'] + ' on ' + record['interview']
        
         message['From'] = sender_address
         message['To'] = receiver_address
@@ -720,9 +731,13 @@ def send_reminders():
             print("Failed to send a reminder, the err: ", e)
 
 
+def logging(request): 
+    print(request)
+
 if __name__ == "__main__":
   sched = BackgroundScheduler(daemon=True)
-  sched.add_job(send_reminders, 'cron', day='*', hour='5')
+#   sched.add_job(send_reminders, 'cron', day='*', hour='5')
+  sched.add_job(send_reminders, 'cron', minute='*')
   sched.start()
-  lcache = LRUCache(100)
+#   lcache = LRUCache(100)
   app.run(debug=True, host="0.0.0.0", port=8000, threaded=True)
