@@ -7,8 +7,18 @@ import './RegisterPage.scss';
 
 export default function RegisterPage() {
 	const navigate = useNavigate();
+    const utf8_to_b64 = (str) => {
+		return decodeURIComponent(window.btoa(str));;
+	}
+
 	const onFinish = (values) => {
 		const loading = message.loading('Loading...', 0);
+        var base64Password = utf8_to_b64(values.password);
+		var base64ConfirmPassword = utf8_to_b64(values.confirmPassword);
+		values.password = base64Password;
+		values.confirmPassword = base64ConfirmPassword
+		console.log("values")
+		console.log(values)
 		axios
 			.post('/api/register', values)
 			.then(() => navigate('/home', { state: { email: values.email } }))

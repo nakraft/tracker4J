@@ -14,7 +14,7 @@ class FlaskTest(unittest.TestCase):
 
     def testLogin(self):
         tester = app.test_client(self)
-        response = tester.post("/login", json={"email": "rrangar@ncsu.edu", "password": "12345678"})
+        response = tester.post("/login", json={"email": "rrangar@ncsu.edu", "password": "MTIzNDU2Nzg="})
         statuscode = response.status_code
         self.assertEqual(statuscode, 200)
         # print(statuscode)

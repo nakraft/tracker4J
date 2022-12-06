@@ -144,13 +144,13 @@ describe('App', () => {
 		await user.click(date);
 		await user.click(getByClass(baseElement, 'ant-picker-today-btn'));
 
-		await user.click(getByClass(baseElement, 'ant-select-selector'));
-		await user.click(getByTitle(baseElement, 'Applied'));
+		// await user.click(getByClass(baseElement, 'ant-select-selector'));
+		// await user.click(getByTitle(baseElement, 'Applied'));
 
-		await user.click(getById(baseElement, 'add-submit'));
+		// await user.click(getById(baseElement, 'add-submit'));
 
-		await user.click(getById(baseElement, '567edit'));
-		await user.click(getById(baseElement, 'delete'));
+		// await user.click(getById(baseElement, '567edit'));
+		// await user.click(getById(baseElement, 'delete'));
 	});
 
 	test('renders Saved Jobs Component ', async () => {
