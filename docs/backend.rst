@@ -8,23 +8,30 @@ backend.app module
 ------------------
 
 .. automodule:: backend.app
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+backend.statistics module
+-------------------------
+
+.. automodule:: backend.statistics
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 backend.tests module
 --------------------
 
 .. automodule:: backend.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: backend
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:
