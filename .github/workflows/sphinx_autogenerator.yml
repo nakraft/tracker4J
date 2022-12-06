@@ -18,12 +18,10 @@ jobs:
     - name: Build documentation and commit
       run: |
           git checkout -b temp_doc_dev
-          rm -rf ./docs
-          mkdir docs
           cd docs/
           sudo apt-get install python3-sphinx
-          sudo rm backend.rst || true
-          sudo rm modules.rst || true
+          sudo rm backend.rst
+          sudo rm modules.rst
           sphinx-apidoc -o . ../backend/
           make html
           cd ..
@@ -31,5 +29,5 @@ jobs:
           git config --global user.email "partha.25m@gmail.com"
           git add .
           git commit -m "Updated documentation" -a || true
-          git push
+          git push origin temp_doc_dev
     # ===============================
