@@ -25,8 +25,6 @@ CareerFair = db.CareerFair
 UserProfiles = db.Profiles
 
 
-# Route for registering new users
-
 sender_address = 'develop.nak@gmail.com'
 sender_pass =  'eyujkirliswosoag'
 
@@ -48,8 +46,10 @@ class LRUCache:
         if len(self.cache) > self.capacity:
             self.cache.popitem(last = False)
 
+# Route for registering a new user
 @app.route("/register", methods=["post"])
 def register():
+    '''Gets input for registering a new user'''
     try:
         req = request.get_json()
         name = {"firstName": req["firstName"], "lastName": req["lastName"]}
@@ -60,6 +60,7 @@ def register():
         password = base64.b64decode(passwordBase64).decode('utf-8')
         confirmPassword = base64.b64decode(confirmPasswordBase64).decode('utf-8')
 
+        '''Checks if email record already exists'''
         email_found = UserRecords.find_one({"email": email})
         if email_found:
             return jsonify({'error': "This email already exists in database"}), 400
@@ -71,10 +72,10 @@ def register():
             user_input = {"name": name, "email": email, "password": hashed}
             UserRecords.insert_one(user_input)
             
-            # #find the new created account and its email
+            '''find the new created account and its email'''
             # user_data = UserRecords.find_one({"email": email})
             # new_email = user_data["email"]
-            # #if registered redirect to logged in as the registered user
+            '''if registered redirect to logged in as the registered user'''
             # session["email"] = new_email
             return jsonify({'message': 'Login successful'}), 200
     except Exception as e:
@@ -85,18 +86,19 @@ def register():
 # Route for log in
 @app.route("/login", methods=["POST"])
 def login():
+    ''' Gets login credentials from user '''
     try:
         req = request.get_json()
         email = req["email"]
         passwordBase64 = req["password"]
         password = base64.b64decode(passwordBase64).decode('utf-8')
 
-        #check if email exists in database
+        '''checks if email exists in database'''
         email_found = UserRecords.find_one({"email": email})
         if email_found:
             # email_val = email_found["email"]
             passwordcheck = email_found["password"]
-            #encode the password and check if it matches
+            '''encode the password and check if it matches'''
             if bcrypt.checkpw(password.encode("utf-8"), passwordcheck):
                 # session["email"] = email_val
                 return jsonify({'message': 'Login successful'}), 200
@@ -113,22 +115,24 @@ def login():
 #Route for logging out
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
-    # if "email" in session:
+    '''Logs out current user'''
+    '''if "email" in session:'''
     #     session.pop("email", None)
     return jsonify({'message': 'Logout successful'}), 200
 
 def filterResults(applications, filter):
+    ''' Applies filters for getting the desired records'''
     filteredApplications = []
     for application in applications:
         if( (application['companyName'].lower().find(filter.lower()) != -1) or (application['jobTitle'].lower().find(filter.lower()) != -1) or (application['jobId'].lower().find(filter.lower()) != -1) or (application['description'].lower().find(filter.lower()) != -1) or (application['url'].lower().find(filter.lower()) != -1) ):
             filteredApplications.append(application)
     return filteredApplications
 
-# Route for viewing applications
 @app.route("/view_applications", methods=["GET"])
 def view_applications():
     try:
-        # if "email" in session:
+        '''Gets current user inputs'''
+        '''if "email" in session:'''
         if request:
             filtered_applications_list = lcache.get(str(request))
             if filtered_applications_list != -1:
@@ -200,11 +204,11 @@ def view_applications():
         #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for adding application
 @app.route("/add_application", methods=["POST"])
 def add_application():
+    '''Route for adding application'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             print(request.args)
@@ -239,11 +243,11 @@ def add_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for deleting an application
 @app.route("/delete_application", methods=["POST"])
 def delete_application():
+    ''' Route for deleting an application'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             email = req["email"]
@@ -261,11 +265,11 @@ def delete_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for changing the status of an application
 @app.route("/change_status", methods=["POST"])
 def change_status():
+    '''Route for changing the status of an application'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             email = req["email"]
@@ -287,11 +291,11 @@ def change_status():
         return jsonify({'error': "Something went wrong"}), 400
 
 
-# Route for adding the contact details of a user
 @app.route("/add_contact_details", methods=["POST"])
 def add_contact_details():
+    '''Route for adding the contact details of a user'''
     try:
-        # if "email" in session:
+        ''' if "email" in session:'''
         if request:
             req = request.get_json()
             email = req["email"]
@@ -313,9 +317,9 @@ def add_contact_details():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for modifying an application
 @app.route("/modify_application", methods=["POST"])
 def modify_application():
+    '''Route for modifying an application'''
     try:
         # if "email" in session:
         if request:
@@ -349,11 +353,11 @@ def modify_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for moving the application to the next stage
 @app.route("/next_stage_application", methods=["POST"])
 def next_stage_application():
+    '''Route for moving the application to the next stage'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             email = req["email"]
@@ -371,6 +375,7 @@ def next_stage_application():
                 "status": req["status"]
             }
             set_values = {"$set": application}
+            '''Updates the stage of the application'''
             modify_document = Applications.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
             if modify_document == None:
                 return jsonify({"error": "No such Job ID found for this user's email"}), 400
@@ -383,11 +388,11 @@ def next_stage_application():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for adding career fair
 @app.route("/add_career_fair", methods=["POST"])
 def add_career_fair():
+    '''Route for adding career fair'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             try:
@@ -399,6 +404,7 @@ def add_career_fair():
             except:
                 date = ""
             print(req)
+            '''Sets attributes of career fair'''
             career_fair = {
                 "email": req["email"],
                 "careerFairName": req["careerFairName"],
@@ -407,6 +413,7 @@ def add_career_fair():
                 "date": date,
             }
             try:
+                '''Adds a career fair'''
                 CareerFair.insert_one(career_fair)
                 return jsonify({"message": "Application added successfully"}),200
             except Exception as e:
@@ -418,11 +425,11 @@ def add_career_fair():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for viewing career fairs
 @app.route("/view_careerfairs", methods=["GET"])
 def view_careerfairs():
+    '''Route for viewing career fairs'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             # email = session["email"]
             email = request.args.get("email")
@@ -451,10 +458,11 @@ def view_careerfairs():
 @app.route("/create_profile", methods=["post"])
 def create_profile():
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             email = req["email"]
+            '''Checks if user profile already exists'''
             email_found = UserProfiles.find_one({"email": email})
             if email_found:
                 return jsonify({"error": "Profile already created."}),400
@@ -491,6 +499,7 @@ def create_profile():
                     "curentUniversity": req.get("curentUniversity")
                 }
                 try:
+                    '''Creates a profile for the user'''
                     UserProfiles.insert_one(user_profile)
                     return jsonify({"message": "Profile created successfully"}),200
                 except Exception as e:
@@ -501,14 +510,15 @@ def create_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-# Route for viewing profile
 @app.route("/view_profile", methods=["GET"])
 def view_profile():
+    '''Route for viewing profile'''
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             email = request.args.get("email")
             filter = {"email": email}
+            '''Gets the profile'''
             profile = UserProfiles.find(filter)
             if profile == None:
                 return jsonify({'message': "Create a profile first", "profile": {}}), 200
@@ -530,11 +540,11 @@ def view_profile():
 @app.route("/get_statistics", methods=["GET"])
 def get_statistics():
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             email = request.args.get("email")
             filter = {"email": email}
-            # finds the profile and application details for a users statistics page 
+            '''finds the profile and application details for a users statistics page''' 
             profile = UserProfiles.find(filter)
             app = Applications.find({"email": email})
             career = CareerFair.find({"email": email})
@@ -555,7 +565,7 @@ def get_statistics():
                         i['date'] = i['date'].split('T')[0]
                         careerfair_list.append(i)
 
-                # built a plotly dashboard based on the profile and applications for the user 
+                '''built a plotly dashboard based on the profile and applications for the user '''
                 json = statistics.build_dashboard(applications_list, careerfair_list)
                 return json
                 
@@ -566,11 +576,11 @@ def get_statistics():
 @app.route("/get_statistics_indicators", methods=["GET"])
 def get_statistics_indicators():
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             email = request.args.get("email")
             filter = {"email": email}
-            # finds the profile and application details for a users statistics page 
+            '''finds the profile and application details for a users statistics page '''
             profile = UserProfiles.find(filter)
             app = Applications.find()
             career = CareerFair.find()
@@ -590,7 +600,7 @@ def get_statistics_indicators():
                         i['date'] = i['date'].split('T')[0]
                         careerfair_list.append(i)
 
-                # built a plotly dashboard based on the profile and applications for the user 
+                '''built a plotly dashboard based on the profile and applications for the user''' 
                 json = statistics.build_indicators(applications_list, careerfair_list, email)
                 return json
 
@@ -601,7 +611,7 @@ def get_statistics_indicators():
 @app.route("/modify_profile", methods=["POST"])
 def modify_profile(): 
     try:
-        # if "email" in session:
+        '''if "email" in session:'''
         if request:
             req = request.get_json()
             _id = req["_id"]
@@ -644,6 +654,7 @@ def modify_profile():
 
                 set_values = {"$set":user_profile}
                 filter = {"email": email}
+                '''Updates the profile'''
                 modify_document = UserProfiles.find_one_and_update(filter, set_values, return_document = ReturnDocument.AFTER)
                 if modify_document == None:
                     return jsonify({"error": "Unable to modify profile"}),400
@@ -658,6 +669,7 @@ def modify_profile():
 # Route for clearing up a profile
 @app.route("/clear_profile", methods=["POST"])
 def clear_profile():
+    '''if "email" in session:'''
     try:
         if request:
             req = request.get_json()
@@ -666,6 +678,7 @@ def clear_profile():
             delete_user = UserRecords.find_one({"email":email_to_delete})
             if delete_user == None:
                 return jsonify({'error': "User email not found"}), 400
+            '''Deletes the profile'''
             delete_profile = UserProfiles.find_one_and_delete({"_id": ObjectId(_id), "email":email_to_delete})
             if delete_profile == None:
                 return jsonify({'error': "Profile not found"}), 400
@@ -681,12 +694,14 @@ def clear_profile():
 # Route for getting upcoming interview dates
 @app.route("/interviews", methods=["get"])
 def interviews() :
+    '''if "email" in session:'''
     try:
         if request:
             email = request.args.get("email")
             today = str(datetime.today()).split()[0]
             query = {"email": email, "interview": {"$gte": today}}
             projection = {"date":1, "_id":0, "companyName": 1, "jobTitle": 1}
+            '''Gets records that have upcoming interviews scheduled'''
             item_details = Applications.find(query,projection)
             if item_details == None:
                 return jsonify({"error": "No such Job ID found for this user's email"})
@@ -697,6 +712,7 @@ def interviews() :
         return jsonify({'error': "Something went wrong"}), 400
 
 def send_reminders():
+    '''For sending automated reminder emails to users'''
     current_date = datetime.now.strftime("%Y-%m-%d")      
     records = Applications.find({"date":{"$regex":"^"+current_date}})
     for record in records:
