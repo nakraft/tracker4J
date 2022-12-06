@@ -35,6 +35,8 @@ Our __NEW functionalities__ include:
 - Tracking career fairs and ensuring you can make it to one on time.
 - Querying applications to ensure you can find what you are looking for
 - Statistics regarding your job search
+- Implemented multithreading and caching of frequent requests on the server to significantly reduce average response time
+- Containerized the backend server for horizontal scaling
 
 Plus we care about security and have integrated in Base64 authentication between our server and client! 
 
