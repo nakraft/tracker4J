@@ -26,7 +26,21 @@ Your personalized JobTracker application in one place!
 
 Excel sheets that are complex and disorganized must go! Every job-related data can be managed by our JobTrackr Application, including your job profile, applications, status, important dates, notes, saved applications, job descriptions, recruiter details, compensation and offer package, and more.
 
-![get a job](https://user-images.githubusercontent.com/30636208/194686221-a4300703-2745-4fbb-b59f-81528896040a.gif)
+## User Workflows
+
+Our __NEW functionalities__ include: 
+
+- Adding/updating applications with contact information, interview dates, or job requests. 
+- Storing your resume for jobs so that you can customize each one
+- Tracking career fairs and ensuring you can make it to one on time.
+- Querying applications to ensure you can find what you are looking for
+- Statistics regarding your job search
+
+Plus we care about security and have integrated in Base64 authentication between our server and client! 
+
+Lastly, we want to make sure you can apply to jobs to your hearts content, to __scale__ up the project, we have paginated the applications tab so that you won't be limited by how many applications you can navigate through. 
+
+For more details regarding User Workflows, visit our [workflow_guide](INSTALL.md)
 
 ## Introduction
 
@@ -50,29 +64,6 @@ https://user-images.githubusercontent.com/30636208/194798331-9338219d-cdbd-4ff1-
 
 https://user-images.githubusercontent.com/30636208/194689139-29cdb217-a9e1-4fea-977d-74cbeb6d6799.mp4
 
-## Screenshots
-
--   Register Page
-
-    ![image](https://user-images.githubusercontent.com/30636208/194688086-ba40502a-e58b-441d-855d-585fecde3ec9.png)
-
--   Login Page
-
-    ![image](https://user-images.githubusercontent.com/30636208/194688064-d40566de-dcc4-424c-8059-14d655fb7109.png)
-
--   My Applications Page
-
-    ![My Applications page](https://user-images.githubusercontent.com/30636208/194687994-0ed3a4ac-3856-4ba9-a3af-9acf9d79ca08.png)
-
--   Add Application Page
-
-    ![image](https://user-images.githubusercontent.com/30636208/194688445-78b7d7b2-6af5-48f1-9197-ba65924660e1.png)
-
--   Profile Page
-
-    ![image](https://user-images.githubusercontent.com/30636208/194688372-b01a8cb5-b87d-40e3-95af-2cee42fc8de3.png)
-
-
 
 ## Built With
 
@@ -85,92 +76,6 @@ https://user-images.githubusercontent.com/30636208/194689139-29cdb217-a9e1-4fea-
 -   `MongoDB`
 
 Note: This repository is configured with [Dart-sass](https://github.com/sass/dart-sass) and not [Node Sass].
-
-## Getting Started
-
-### Prerequisites
-
--   npm 8.x (8.9 recommended)
--   yarn 1.22.x
--   Python 3.8+
-
-### Installation
-
-1. Clone the repository
-
-```
-git clone https://github.com/nakraft/tracker4J.git
-```
-
-2. Install NPM dependencies
-
-```
-cd tracker4J
-yarn
-```
-
-
-## Install Backend requirements
-
-Open a new terminal inside the backend directory.
-
-`cd tracker4J\backend`
-
-
-Create a virtual environment called `venv`
-
-```
-python -m venv venv
-```
-
-For Windows - Activate the virtual environment
-
-```
-venv\Scripts\activate.bat
-```
-
-For Mac OS - Activate the virtual environment
-```
-source venv/bin/activate
-```
-
-Install required packages for the Flask server
-
-```
-pip install -r requirements.txt
-```
-
-Run the flask server.
-
-```
-python app.py
-```
-The flask server runs in [http://localhost:8000](http://localhost:8000)
-
-## Available Scripts
-
-### Development Mode
-
-In the project directory, you can run:
-
-```
-yarn start
-```
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### Production Optimised Build
-
-```
-yarn build
-```
-
-Builds the app for production to the `build` folder.\
-It bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
 ### Use 
 
@@ -210,7 +115,6 @@ View some common issues users have identified in our [troubleshooting guide](htt
 You can visit our website with full descriptions of our classes and methods by opening ```index.html``` within your file explorer. Included on the website is user profiles of people who should use the software and success stories!
   
 Need more support? Our primary method for addressing bugs and feature requests should be through submitting an issue ticket in the "Issues" tab. If you need additional support, please reach out to our development email develop.nak@gmail.com and a member of the team will be in contact with you shortly. You can also email the development email to asked to be added to our subsriber list for updates regarding the project's development.
-
 
 ## License
 
