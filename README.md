@@ -57,7 +57,7 @@ https://user-images.githubusercontent.com/30636208/194798331-9338219d-cdbd-4ff1-
 https://user-images.githubusercontent.com/30636208/194689139-29cdb217-a9e1-4fea-977d-74cbeb6d6799.mp4
 
 ## New Application Demo 
-<video src="https://github.com/nakraft/tracker4J/tree/master/resources/Tracker4j.mp4">
+<a href="https://youtu.be/k30zrIrqsV0"><img src="https://github.com/nakraft/tracker4J/resources/bg.png"></a>
 
 ### Use 
 
