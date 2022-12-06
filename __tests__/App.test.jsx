@@ -144,7 +144,7 @@ describe('App', () => {
 		await user.click(date);
 		await user.click(getByClass(baseElement, 'ant-picker-today-btn'));
 
-		await user.click(getByClass(baseElement, 'ant-select-selector'));
+		// await user.click(getByClass(baseElement, 'ant-select-selector'));
 		await user.click(getByTitle(baseElement, 'Applied'));
 
 		await user.click(getById(baseElement, 'add-submit'));
