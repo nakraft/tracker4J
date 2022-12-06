@@ -40,7 +40,7 @@ Plus we care about security and have integrated in Base64 authentication between
 
 Lastly, we want to make sure you can apply to jobs to your hearts content, to __scale__ up the project, we have paginated the applications tab so that you won't be limited by how many applications you can navigate through. 
 
-For more details regarding User Workflows, visit our [workflow_guide](INSTALL.md)
+For more details regarding User Workflows, visit our user workflows which are included in the [install guide](INSTALL.md)
 
 ## Introduction
 
