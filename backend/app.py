@@ -111,7 +111,9 @@ def login():
     except Exception as e:
         #print(e)
         return jsonify({'error': "Something went wrong"}), 400
-
+# @app.route("/upload, methods = ["POST"])
+#     def upload():
+         # upload code goes here
 #Route for logging out
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
