@@ -505,7 +505,7 @@ def create_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
+# Route for viewing profile
 @app.route("/view_profile", methods=["GET"])
 def view_profile():
     try:
@@ -530,6 +530,7 @@ def view_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
+# route for getting statistics
 @app.route("/get_statistics", methods=["GET"])
 def get_statistics():
     try:
@@ -658,6 +659,7 @@ def modify_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400    
 
+# Route for clearing up a profile
 @app.route("/clear_profile", methods=["POST"])
 def clear_profile():
     try:
@@ -680,7 +682,7 @@ def clear_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
+# Route for getting upcoming interview dates
 @app.route("/interviews", methods=["get"])
 def interviews() :
     try:
