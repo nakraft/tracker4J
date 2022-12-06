@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Tag, Typography, Dropdown, Select, Input, Modal } from 'antd';
 import { EditFilled, PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import axios from 'axios';
-// import { format } from 'date-fns'
-// import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 
 import AddApplication from '../AddApplication/AddApplication';

@@ -11,11 +11,6 @@ export default function ChooseAction({ application, onClose, email }) {
 		onClose();
 	};
 
-    // const setNextStageApplication = () => {
-    //     console.log();
-    //     onClose('next');
-    // }
-
 	return (
         <div>
             <div>

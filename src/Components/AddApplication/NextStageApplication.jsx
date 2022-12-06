@@ -63,8 +63,6 @@ export default function NextStageApplication({ application, onClose, updateAppli
 				initialValues={{
 					description: application.description,
 					status: 'interview'
-					// interview: moment(application.interview),
-                    // reminder: moment(application.reminder)
 				}}
 				onFinish={updateApplication}
 			>
