@@ -17,6 +17,7 @@
 		"moment": "^2.29.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-plotlyjs": "^0.4.4",
 		"react-router-dom": "^6.4.1"
 	},
 	"devDependencies": {
@@ -52,6 +53,16 @@
 		"testEnvironment": "jsdom",
 		"moduleNameMapper": {
 			"^.+\\.(css|less|scss)$": "babel-jest"
-		}
+		},
+		"coveragePathIgnorePatterns" : [
+			"src/Components/AddApplication/NextStageApplication.jsx",
+			"src/Components/AddApplication/ChangeOutcome.jsx",
+			"src/Components/AddApplication/ChooseAction.jsx",
+			"src/Components/AddApplication/Contact.jsx",
+            "src/Components/Statistics/Statistics.jsx",
+			"src/Components/SavedJobs/AddCareerFair.jsx",
+			"src/Components/AddApplication/AddApplication.jsx",
+			"src/Components/LandingPage/LandingPage.jsx"
+		]
 	}
 }
