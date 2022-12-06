@@ -22,7 +22,7 @@ Applications = db.Applications
 CareerFair = db.CareerFair
 UserProfiles = db.Profiles
 
-
+# Route for registering new users
 @app.route("/register", methods=["post"])
 def register():
     try:
@@ -57,6 +57,7 @@ def register():
         return jsonify({'error': "Something went wrong"}), 400
 
 
+# Route for log in
 @app.route("/login", methods=["POST"])
 def login():
     try:
@@ -84,7 +85,7 @@ def login():
         #print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-
+#Route for logging out
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
     # if "email" in session:
