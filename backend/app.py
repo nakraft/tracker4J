@@ -628,7 +628,7 @@ def clear_profile():
         print(e)
         return jsonify({'error': "Something went wrong"}), 400
 
-    @app.route("/interviews", methods=["get"])
+@app.route("/interviews", methods=["get"])
 def interviews() :
     try:
         if request:
